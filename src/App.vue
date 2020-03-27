@@ -56,5 +56,6 @@ export default {
   text-align: center;
   color: #2c3e50;
   font-size: 10px;
+  min-height: 100vh;
 }
 </style>

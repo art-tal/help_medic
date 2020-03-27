@@ -6,68 +6,71 @@
                     <img src="../image/mykolaiv.png" alt="Mykolaiv">
                     <h2>Миколаївська область</h2>
                 </div>
-                <div class="choice">
+                <form class="choice" name="choice">
                     <h5>Оберіть район або населений пункт для отримання інформації про доступні лікарні.</h5>
 
-
-                    <select name="areas" id="areas" v-model="area" @change="findHospital(area)">
+                    <select name="areas"
+                            id="areas"
+                            :disabled="blockAreaField"
+                            v-model="area"
+                            @change="selectArea()"
+                    >
                         <option selected="selected" disabled="disabled">Оберіть район</option>
                         <option v-for="(ar, key) in areas"
                                 :key="key"
-                                :value="ar.area_name">{{ar.area_name}}</option>
+                                :value="ar">{{ar.area_name}}
+                            <i class="fas fa-times"></i>
+                        </option>
                     </select>
 
-
-
-                    <select name="cities" v-model="city" @change="findHospital(city)">
-                        <option selected="selected" disabled>Оберіть населений пункт</option>
+                    <select name="cities" id="cities" v-model="city" @change="selectCity()">
+                        <option selected="selected" disabled="disabled">Оберіть населений пункт</option>
                         <option v-for="(city, key) in cities"
                                 :key="key"
-                                :value="city.name"
+                                :value="city"
                         >{{city.name}}</option>
                     </select>
 
-                </div>
+                    <input type="reset" class="btn btn-dark" value="Скинути вибір" @click="resetSelect()"/>
+
+                </form>
             </div>
 
 
-            <div class="col-lg-8 col-12"></div>
+            <div class="col-lg-8 col-12">
+<!--                <google-map :name="name"></google-map>-->
+<!--                <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDW89V9DN2EqYUa&#45;&#45;Ogbv8Qrg-DRYNmdwc"></script>-->
+            </div>
         </article>
-
-
-
-
-
-        <hospital></hospital>
 
     </section>
 </template>
 
 <script>
     import axios from "axios"
-    import Hospital from "@/components/Hospital";
+    // import googleMap from '~/components/googleMap.vue'
 
     export default {
         name: "Mykolaiv",
 
         components: {
-            Hospital
+            // googleMap
         },
 
         data() {
             return {
                 areas: null,
-                area: null,
+                area: "Оберіть район",
                 cities: null,
-                city: null,
+                city: "Оберіть населений пункт",
+
+                blockAreaField: false,
             }
         },
 
         created() {
             this.getAreas();
             this.getCities();
-
-            // this.$router.push({name: 'hospitals'})
         },
 
         methods:{
@@ -77,7 +80,6 @@
                 )
                 .then( (response) => {
                     this.areas = response.data;
-                    console.log(this.areas);
                 } )
                 .catch( (error) => {
                     console.log("Ошибка!");
@@ -86,15 +88,11 @@
             },
 
             getCities() {
-                axios.get('https://helpmedic.atlant-mega.com/ajax/cities'//,
-                    // {
-                    // params: {
-                    //     id: 1//this.district.id
-                    // }}
+                axios.get('https://helpmedic.atlant-mega.com/ajax/cities/all'//,
+
                 )
                 .then( (response) => {
                     this.cities = response.data;
-                    console.log(response.data);
                 } )
                 .catch( (error) => {
                     console.log("Ошибка! населенка");
@@ -102,19 +100,52 @@
                 } )
             },
 
-            findHospital(obj) {
-                console.log('change');
-                if(obj.region_name) {
-                    // this.$router.push({name: "hostital", params: {area_id: obj.id}} );
-                    console.log('area id');
-                    this.$store.state.area = obj;
+            selectArea() {
+                this.$store.state.area = this.area;
+                this.findCity();
+                if (this.cities.length === 1) {
+                    console.log("11111111");
+                    this.city = this.cities[0];
+                    this.$store.state.city = this.city;
+                    console.log(this.$store.state.city);
                 }
-                else if (obj.name) {
-                    // this.$router.push({name: "hospital", params: {city_id: obj.id}});
-                    console.log('city id');
-                    this.$store.state.city = obj;
-                }
-            }
+            },
+
+            selectCity() {
+                this.$store.state.city = this.city;
+                // console.log(this.$store.state.city );
+                this.area = this.areas.find( ar => ar.area_id === this.city.area_id );
+                this.$store.state.area = this.area;
+                // console.log(this.area);
+                this.blockAreaField = true;
+                },
+
+            findCity() {
+                axios.get(
+                    "https://helpmedic.atlant-mega.com/ajax/cities",
+                    {params: {id: this.area.area_id}}
+                )
+                .then( (response) => {
+                    this.cities = response.data;
+                    if (this.cities.length === 1) {
+                        this.$store.state.city = this.city = this.cities[0];
+                    }
+                } )
+                .catch( (error) => {
+                    console.log('Ошибка');
+                    console.log(error);
+                } )
+            },
+
+            resetSelect() {
+                this.area = "Оберіть район";
+                this.city = "Оберіть населений пункт";
+                this.blockAreaField = false;
+                this.$store.state.area = null;
+                this.$store.state.city = null;
+                this.getAreas();
+                this.getCities();
+            },
 
 
 
@@ -156,10 +187,12 @@
                     h5 {
                         font-size: 1.3rem;
                         font-weight: normal;
+                        margin-bottom: 10px;
                     }
+
                     select {
                         /*height: 64px;*/
-                        margin-top: 15px;
+                        margin-bottom: 15px;
                         border: 1px solid #00AEEF;
                         padding: 10px 15px;
                         border-radius: 10px;
@@ -177,6 +210,13 @@
                             }
                         }
 
+                    }
+
+                    input[type="reset"].btn.btn-dark {
+                        padding: 7px 10px;
+                        background-color: #929292;
+                        border-radius: 10px;
+                        /*border: none;*/
                     }
                 }
             }
@@ -211,7 +251,6 @@
                         }
                         select {
                             /*height: 64px;*/
-                            margin-top: 15px;
                             border: 1px solid #00AEEF;
                             padding: 10px 15px;
                             border-radius: 10px;

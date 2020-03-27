@@ -26,7 +26,7 @@ export default new VueRouter({
         },
 
         {
-            path: '/hospital',
+            path: '/hospital/:id',
             name: 'hospital',
             component: Hospital,
         },

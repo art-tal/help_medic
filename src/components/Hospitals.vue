@@ -2,52 +2,28 @@
     <section class="find_hospitals container">
         <h3>Знайдені медичні заклади</h3>
 
-        <ol class="hospitals">
-            <li class="hosp row"
-                v-for="(hospital, key) in hospitals"
-                :key="key">
-                <p class="col-2">{{hospital.city_name}}</p>
-                <a class="col-8" @click.prevent="setHospital(hospital)">{{hospital.name}}</a>
-<!--                <router-link-->
-<!--                        class="col-8"-->
-<!--                        exact-->
-<!--                        tag="a"-->
-<!--                        @click="setHospital(hospital)"-->
-<!--                        to="/hospital"-->
-<!--                >-->
-<!--                    {{hospital.name}}-->
-<!--                </router-link>-->
-                <p class="col-2">{{hospital.address}}</p>
+
+        <ul class="area">
+            <li class="area_item" v-for="(ar,key) in areas" :key="key">
+                <h4>{{ar.area_name}}</h4>
+                <ol class="cities">
+                    <li class="cit_item"
+                        v-for="(city, key) in cities.filter( cit => cit.area_id === ar.area_id)"
+                        :key="key">
+                        <ul class="hospital"
+                            v-for="(hosp, key) in hospitals.filter( hosp => hosp.city_id === city.id )"
+                            :key="key"
+                        >
+                            <li class="hosp_item row">
+                                <p class="col-2">{{city.name}}</p>
+                                <a class="col-8" @click.prevent="setHospital(hosp)">{{hosp.name}}</a>
+                                <p class="col-2">{{hosp.address}}</p>
+                            </li>
+                        </ul>
+                    </li>
+                </ol>
             </li>
-        </ol>
-
-
-
-
-<!--        <ol class="hospitals" v-if="(getArea || getCity)">-->
-<!--            <li class="hosp row"-->
-<!--                v-for="(hospital, key) in hospitals"-->
-<!--                :key="key">-->
-<!--                <p class="col-3">{{hospital.city_name}}</p>-->
-<!--                <a class="col-6">{{hospital.name}}</a>-->
-<!--                <p class="col-3">{{hospital.address}}</p>-->
-<!--            </li>-->
-<!--        </ol>-->
-
-<!--        <ul class="distr" v-if="!(getArea || getCity)">-->
-<!--            <li class="distr_item" v-for="(area,key) in areas" :key="key">-->
-<!--                <h4>{{area.area_name}}</h4>-->
-<!--                <ol class="hospitals">-->
-<!--                    <li class="hosp row"-->
-<!--                        v-for="(hospital, key) in hospitals.filter( hosp => hosp.area_name === area.area_name)"-->
-<!--                        :key="key">-->
-<!--                        <p class="col-3">{{hospital.city_name}}</p>-->
-<!--                        <p class="col-6">{{hospital.name}}</p>-->
-<!--                        <p class="col-3">{{hospital.address}}</p>-->
-<!--                    </li>-->
-<!--                </ol>-->
-<!--            </li>-->
-<!--        </ul>-->
+        </ul>
 
     </section>
 </template>
@@ -61,101 +37,53 @@
         data() {
             return {
                 areas: null,
+                cities: null,
                 area: null,
                 hospitals: null,
             }
         },
 
         created() {
-            this.requestAreas();
-            this.findHospital();
+            this.getAreas();
+            this.getCities();
+            this.getHospitals();
         },
 
         computed: {
           getArea() {
+              console.log(this.$store.getters.getArea);
               return this.$store.getters.getArea
           },
 
             getCity() {
+                console.log(this.$store.getters.getCity);
               return this.$store.getters.getCity;
+            },
+        },
+
+        watch: {
+            getArea() {
+                if (this.$store.getters.getArea) {
+                    this.areas = [this.$store.getters.getArea];
+                    this.filterHospital();
+                } else {
+                    this.getAreas();
+                    this.getCities();
+                    this.getHospitals();
+                }
+                return this.getArea;
             },
         },
 
         methods: {
 
-            findHospital() {
-                this.requestHospitals();
-                // if(this.getCity) {
-                //     this.hospitals = this.hospitals.filter( hosp => hosp.city_name === this.getCity.city_name );
-                // } else if (this.getArea) {
-                //     this.hospitals = this.hospitals.filter( hosp => hosp.area_name === this.getArea.area_name );
-                // }
-            },
-
-
-            requestHospitals() {
-                axios.get(
-                    "https://helpmedic.atlant-mega.com/ajax/hospitals"
-                )
-                    .then((response) => {
-                        this.hospitals = response.data;
-                        console.log(this.hospitals);
-                    })
-                    .catch((error) => {
-                        console.log("Ошибка!");
-                        console.log(error);
-                        ////////////////////////////////////////
-                        this.hospitals = [
-                            {
-                                id: 1,
-                                name: "Березнегуватський районний центр первинної медико-санітарної допомоги",
-                                tel: "0516892063",
-                                city_id: 4,
-                                city_name: "смт. Березнегувате",
-                                address: "вул. Лермонтова, 1",
-                                gps: "---",
-                                invoice: "38412046",
-                            },
-                            {
-                                id: 2,
-                                name: "Березнегуватська центральна районна лікарня",
-                                tel: "0516892063",
-                                city_id: 4,
-                                city_name: "смт. Березнегувате",
-                                address: "вул. Лермонтова, 1",
-                                gps: "---",
-                                invoice: "1998377",
-                            },
-                            {
-                                id: 3,
-                                name: "Центр первинної медико-санітарної допомоги Баштанського району",
-                                tel: "(05158)2-76-37",
-                                city_id: 5,
-                                city_name: "м. Баштанкае",
-                                address: "вул. Ювілейна, 3",
-                                gps: "---",
-                                invoice: "38313781",
-                            },
-                        ];
-
-                        console.log(this.hospitals);
-                        //////////////////////////////////////////
-                    })
-            },
-
-            setHospital(hospital) {
-                this.$store.state.hospital = hospital;
-                console.log(hospital)
-                this.$router.push({name: "hospital"});
-            },
-
-            requestAreas() {
+            getAreas() {
                 axios.get(
                     "https://helpmedic.atlant-mega.com/ajax/areas"
                 )
                     .then((response) => {
                         this.areas = response.data;
-                        console.log(this.areas);
+                        // console.log(this.areas);
                     })
                     .catch((error) => {
                         console.log("Ошибка!");
@@ -163,22 +91,49 @@
                     })
             },
 
-            // getCities() {
-            //     axios.get('https://helpmedic.atlant-mega.com/ajax/cities'//,
-            //         // {
-            //         // params: {
-            //         //     id: 1//this.district.id
-            //         // }}
-            //     )
-            //         .then((response) => {
-            //             this.cities = response.data;
-            //             console.log(response.data);
-            //         })
-            //         .catch((error) => {
-            //             console.log("Ошибка! населенка");
-            //             console.log(error);
-            //         })
-            // },
+            getCities() {
+                axios.get('https://helpmedic.atlant-mega.com/ajax/cities/all'
+
+                )
+                    .then( (response) => {
+                        this.cities = response.data;
+                        console.log(response.data);
+                    } )
+                    .catch( (error) => {
+                        console.log("Ошибка! населенка");
+                        console.log(error);
+                    } )
+            },
+
+            getHospitals() {
+                axios.get(
+                    "https://helpmedic.atlant-mega.com/ajax/hospitals/all"
+                )
+                    .then( (response) => {
+                        this.hospitals = response.data;
+                        console.log(this.hospitals);
+                    } )
+                    .catch( (error) => {
+                        console.log("Ошибка Загрузки данных");
+                        console.log(error);
+                    } )
+            },
+
+            filterHospital() {
+
+                if (this.getCity.name) {
+                    this.cities = [this.getCity]
+                } else {
+                    let tempCities = this.cities.filter( city => city.area_id === this.getArea.area_id );
+                    this.cities = tempCities;
+                }
+            },
+
+            setHospital(hospital) {
+                this.$store.state.hospital = hospital;
+                // console.log(hospital)
+                this.$router.push({name: "hospital", params: {id: hospital.id}});
+            },
         }
     }
 </script>
@@ -198,32 +153,47 @@
             text-align: center;
             margin-bottom: 25px;
         }
-        ul {
+        ul.area {
             width: 100%;
             list-style-type: circle;
-            li {
-                border-bottom: 1px solid #020202;
+            li.area_item {
                 margin-bottom: 30px;
                 h4 {
                     font-size: 1.5rem;
-                    padding: 0 15px;
+                    padding: 0 15px 10px;
+                    border-bottom: 1px solid #020202;
                 }
+                ol.cities {
+                    width: 100%;
+                    list-style-type: none;
+                    li.cit_item {
+                        ul.hospital {
+                            li.hosp_item.row {
+                                border-bottom: 1px solid #dddddd;
+                                color: $font_color;
+                                p, a {
+                                    padding: 10px;
+                                    font-size: 1rem;
+                                }
+                                a {
+                                    cursor: pointer;
+                                    color: darkblue;
+                                }
+                            }
+                        }
 
+                    }
+                }
             }
         }
 
-        ol {
-            width: 100%;
-            list-style-type: none;
-            li {
-                border-bottom: 1px solid #dddddd;
-                color: $font_color;
-                p, a {
-                    padding: 10px;
-                    font-size: 1rem;
-                }
-            }
-        }
+
+
+
+
+
+
+
     }
 
 </style>
