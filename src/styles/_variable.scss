@@ -1,0 +1,7 @@
+$font_color: #020202;
+%box { box-sizing: border-box; }
+
+@mixin flex {
+  display: flex;
+  justify-content: space-between;
+}
