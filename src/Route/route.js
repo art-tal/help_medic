@@ -5,6 +5,9 @@ import Hospital from "@/components/Hospital";
 import Home from "@/components/Home";
 import Need from "@/components/Need";
 import About from "@/components/About";
+import Authorization from "@/components/Authorization";
+import LogIn from "@/components/LogIn";
+import Registration from "@/components/Registration";
 
 export default new VueRouter({
     routes: [
@@ -42,6 +45,24 @@ export default new VueRouter({
             path: "/about",
             name: "about",
             component: About,
+        },
+
+        {
+            path: "/authorization",
+            name: "authorization",
+            component:Authorization,
+            children: [
+                {
+                    path: "/authorization/login",
+                    name: "login",
+                    component: LogIn,
+                },
+                {
+                    path: "/authorization/registration",
+                    name: "registration",
+                    component: Registration,
+                },
+            ],
         },
 
     ],

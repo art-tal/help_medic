@@ -104,7 +104,6 @@
                 this.$store.state.area = this.area;
                 this.findCity();
                 if (this.cities.length === 1) {
-                    console.log("11111111");
                     this.city = this.cities[0];
                     this.$store.state.city = this.city;
                     console.log(this.$store.state.city);
@@ -146,11 +145,6 @@
                 this.getAreas();
                 this.getCities();
             },
-
-
-
-
-
         },
     }
 </script>
@@ -213,10 +207,10 @@
                     }
 
                     input[type="reset"].btn.btn-dark {
-                        padding: 7px 10px;
-                        background-color: #929292;
-                        border-radius: 10px;
-                        /*border: none;*/
+                        @include button
+                        /*padding: 7px 10px;*/
+                        /*background-color: #929292;*/
+                        /*border-radius: 10px;*/
                     }
                 }
             }

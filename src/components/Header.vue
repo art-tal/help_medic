@@ -20,9 +20,7 @@
                     >
                         <a class="nav-link">Лікарні</a>
                     </router-link>
-<!--                    <li class="nav-item">-->
-<!--                        <a class="nav-link" href="#">Лікарні</a>-->
-<!--                    </li>-->
+
                     <router-link
                             tag="li"
                             class="nav-item"
@@ -32,21 +30,17 @@
                     >
                         <a class="nav-link">Потреби</a>
                     </router-link>
-<!--                    <li class="nav-item">-->
-<!--                        <a class="nav-link" href="#">Потреби</a>-->
-<!--                    </li>-->
-                    <router-link
-                            tag="li"
-                            class="nav-item"
-                            exact
-                            active-class="active"
-                            to=""
-                    >
-                        <a class="nav-link">Зробити внесок</a>
-                    </router-link>
-<!--                    <li class="nav-item">-->
-<!--                        <a class="nav-link" href="#">Зробити внесок</a>-->
-<!--                    </li>-->
+
+<!--                    <router-link-->
+<!--                            tag="li"-->
+<!--                            class="nav-item"-->
+<!--                            exact-->
+<!--                            active-class="active"-->
+<!--                            to=""-->
+<!--                    >-->
+<!--                        <a class="nav-link">Зробити внесок</a>-->
+<!--                    </router-link>-->
+
                     <router-link
                             tag="li"
                             class="nav-item"
@@ -59,24 +53,25 @@
 <!--                    <li class="nav-item active">-->
 <!--                        <a class="nav-link" href="#">Про фонд</a>-->
 <!--                    </li>-->
+<!--                    <li class="nav-item">-->
+<!--                        <a class="nav-link" href="#">Контакти</a>-->
+<!--                    </li>-->
+                    <div class="form-inline language_bar my-2 my-lg-0">
+                        <!--                    <h5>EN</h5>-->
+                        <!--                    <h5>RU</h5>-->
+                        <h5>UA</h5>
+                    </div>
+
                     <router-link
                             tag="li"
                             class="nav-item"
                             exact
                             active-class="active"
-                            to=""
+                            to="/authorization"
                     >
-                        <a class="nav-link">Контакти</a>
+                        <a class="nav-link">Вхід</a>
                     </router-link>
-<!--                    <li class="nav-item">-->
-<!--                        <a class="nav-link" href="#">Контакти</a>-->
-<!--                    </li>-->
                 </ul>
-                <div class="form-inline language_bar my-2 my-lg-0">
-<!--                    <h5>EN</h5>-->
-<!--                    <h5>RU</h5>-->
-                    <h5>UA</h5>
-                </div>
             </div>
         </nav>
 

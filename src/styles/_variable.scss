@@ -5,3 +5,10 @@ $font_color: #020202;
   display: flex;
   justify-content: space-between;
 }
+
+@mixin button {
+  padding: 7px 10px;
+  border: 1px solid #343a40;
+  background-color: #929292;
+  border-radius: 10px;
+}

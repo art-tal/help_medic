@@ -27,6 +27,7 @@
                 <div class="col-lg-3 col-7">{{need.medication_name}}</div>
                 <div class="col-5 sub_header">Тип</div>
                 <div class="col-lg-1 col-7">{{need.type_drug_name}}</div>
+<!--                <div class="col-5 sub_header">Форма відпуску</div>-->
                 <div class="col-5 sub_header">Пакування</div>
                 <div class="col-lg-2 col-7">{{need.description}}</div>
                 <div class="col-5 sub_header">Наявнівсть, шт.</div>
@@ -70,8 +71,30 @@
                 .catch( (error) => {
                     console.log("Ошибка!");
                     console.log(error);
-                } )
+                } );
+               // this.gettingHospital();
+            //
             },
+
+
+            // gettingHospital() {
+            //     axios.get(
+            //         "https://helpmedic.atlant-mega.com/ajax/hospitals",
+            //         {params: {id: 1}},
+            //     )
+            //         .then((response) => {
+            //             this.getHospital = response.data;
+            //             console.log(this.hospital);
+            //         })
+            //         .catch((error) => {
+            //             console.log("Ошибка нет Больницы");
+            //             console.log(error);
+            //         });
+            // },
+
+
+
+
 
             setHospital(hospital) {
                 this.$store.state.hospital = hospital;
@@ -115,6 +138,9 @@
                     border: 1px solid #aaaaaa;
                     &.sub_header {
                         display: none;
+                    }
+                    a {
+                        color: darkblue;
                     }
                 }
 

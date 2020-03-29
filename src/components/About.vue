@@ -1,6 +1,6 @@
 <template>
     <section class="about container-fluid">
-        <img src="../image/koronavirus-simptomy-i-profilaktika-3-0.jpg" alt="koronavirus">
+        <img src="../image/koronavirus.jpg" alt="koronavirus">
         <header>
             <h1>Про фонд</h1>
             <p><strong>Наша місія</strong> — унеможливити розповсюдження коронавірусу
