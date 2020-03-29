@@ -1,34 +1,50 @@
 <template>
-    <div class="google-map" :id="name"></div>
+    <article class="g_map">
+        <GmapMap
+                :center="{lat:10, lng:10}"
+                :zoom="7"
+                map-type-id="terrain"
+                style="width: 500px; height: 300px"
+                :options="{
+   zoomControl: true,
+   mapTypeControl: false,
+   scaleControl: false,
+   streetViewControl: false,
+   rotateControl: false,
+   fullscreenControl: true,
+   disableDefaultUi: false
+ }"
+        >
+            <GmapMarker
+                    :key="index"
+                    v-for="(m, index) in markers"
+                    :position="m.position"
+                    :clickable="true"
+                    :draggable="true"
+                    @click="center=m.position"
+            />
+        </GmapMap>
+    </article>
 </template>
 
 <script>
+    import { gmapApi } from 'vue2-google-maps';
+
     export default {
-        name: 'google-map',
-        props: ['name'],
-        data: function () {
+        name: "GoogleMap",
+        data() {
             return {
-                map: '',
-            }
+
+            };
         },
+
 
 
         computed: {
-            mapMarkers: function () {
-                return this.markers
-            }
+            google: gmapApi
         },
-
-        mounted: function () {
-            const element = document.getElementById(this.name)
-            const options = {
-                zoom: 14,
-                center: new google.maps.LatLng(59.93, 30.32)
-            }
-            this.map = new google.maps.Map(element, options)
-        },
-
         methods: {
+
         }
     }
 </script>

@@ -15,9 +15,9 @@
                             :key="key"
                         >
                             <li class="hosp_item row">
-                                <p class="col-2">{{city.name}}</p>
-                                <a class="col-8" @click.prevent="setHospital(hosp)">{{hosp.name}}</a>
-                                <p class="col-2">{{hosp.address}}</p>
+                                <p class="col-lg-2 col-md-3 col-6">{{city.name}}</p>
+                                <a class="col-lg-8 col-md-6 col-12" @click.prevent="setHospital(hosp)">{{hosp.name}}</a>
+                                <p class="col-lg-2 col-md-3 col-6">{{hosp.address}}</p>
                             </li>
                         </ul>
                     </li>
@@ -181,19 +181,72 @@
                                 }
                             }
                         }
-
                     }
                 }
             }
         }
+    }
 
+    @media (min-width: 575.9px) and (max-width: 768px) {
+        section.find_hospitals.container {
+            padding-top: 0px;
+            ul.area {
+                li.area_item {
+                    h4 {
+                    }
+                    ol.cities {
+                        li.cit_item {
+                            ul.hospital {
+                                li.hosp_item.row {
+                                    border: 1px solid #dddddd;
+                                    border-radius: 10px;
+                                    padding: 10px;
+                                    margin-top: 10px;
+                                    a {
+                                        order:-1;
+                                    }
+                                    p:last-child {
+                                        text-align: right;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 
-
-
-
-
-
-
+    @media (max-width: 576px) {
+        section.find_hospitals.container {
+            min-width: 470px;
+            padding: 0 30px 30px;
+            ul.area {
+                list-style-type: none;
+                li.area_item {
+                    h4 {
+                    }
+                    ol.cities {
+                        li.cit_item {
+                            ul.hospital {
+                                li.hosp_item.row {
+                                    border: 1px solid #dddddd;
+                                    border-radius: 10px;
+                                    padding: 10px;
+                                    margin-top: 10px;
+                                    a {
+                                        order:-1;
+                                    }
+                                    p:last-child {
+                                        text-align: right;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
 </style>

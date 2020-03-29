@@ -11,21 +11,66 @@
 
             <div class="collapse navbar-collapse bg-light col-xl-10" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="#">Про фонд</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Завдання</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Потреби</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Зробити внесок</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Контакти</a>
-                    </li>
+                    <router-link
+                            tag="li"
+                            class="nav-item"
+                            exact
+                            active-class="active"
+                            to="/home"
+                    >
+                        <a class="nav-link">Лікарні</a>
+                    </router-link>
+<!--                    <li class="nav-item">-->
+<!--                        <a class="nav-link" href="#">Лікарні</a>-->
+<!--                    </li>-->
+                    <router-link
+                            tag="li"
+                            class="nav-item"
+                            exact
+                            active-class="active"
+                            to="/need"
+                    >
+                        <a class="nav-link">Потреби</a>
+                    </router-link>
+<!--                    <li class="nav-item">-->
+<!--                        <a class="nav-link" href="#">Потреби</a>-->
+<!--                    </li>-->
+                    <router-link
+                            tag="li"
+                            class="nav-item"
+                            exact
+                            active-class="active"
+                            to=""
+                    >
+                        <a class="nav-link">Зробити внесок</a>
+                    </router-link>
+<!--                    <li class="nav-item">-->
+<!--                        <a class="nav-link" href="#">Зробити внесок</a>-->
+<!--                    </li>-->
+                    <router-link
+                            tag="li"
+                            class="nav-item"
+                            exact
+                            active-class="active"
+                            to="/about"
+                    >
+                        <a class="nav-link">Про фонд</a>
+                    </router-link>
+<!--                    <li class="nav-item active">-->
+<!--                        <a class="nav-link" href="#">Про фонд</a>-->
+<!--                    </li>-->
+                    <router-link
+                            tag="li"
+                            class="nav-item"
+                            exact
+                            active-class="active"
+                            to=""
+                    >
+                        <a class="nav-link">Контакти</a>
+                    </router-link>
+<!--                    <li class="nav-item">-->
+<!--                        <a class="nav-link" href="#">Контакти</a>-->
+<!--                    </li>-->
                 </ul>
                 <div class="form-inline language_bar my-2 my-lg-0">
 <!--                    <h5>EN</h5>-->
@@ -79,11 +124,11 @@
                 height: 100%;
                 padding: 0 10px 0 70px;
                 margin: 5px;
-                background-image: url(../image/logo.jpg);
+                background-image: url(../image/help_medic.png);
                 background-repeat: no-repeat;
                 -webkit-background-size: 60px;
                 background-size: 60px;
-                background-position: 0 0;
+                background-position: 0 center;
                 vertical-align: middle;
                 h1 {
                     padding: 10px 0;
@@ -94,10 +139,22 @@
                     text-transform: uppercase;
                 }
             }
+            .collapse.navbar-collapse {
+                ul.navbar-nav {
+                    li.nav-item {
+                        width: auto;
+                        a.nav-link {
+                            padding-left: 1rem;
+                            padding-right: 1rem;
+                        }
+                    }
+                }
+            }
         }
 
         .language_bar {
             flex-grow: 1;
+            width: auto;
             @include flex;
             justify-content: flex-end;
             align-items: center;

@@ -37,9 +37,9 @@
             </div>
 
 
-            <div class="col-lg-8 col-12">
-<!--                <google-map :name="name"></google-map>-->
-<!--                <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDW89V9DN2EqYUa&#45;&#45;Ogbv8Qrg-DRYNmdwc"></script>-->
+            <div class="map col-lg-8 col-12">
+<!--                <google-></google->-->
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d821116.2854233051!2d31.588305633583683!3d47.4672520037775!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40c59abab155d4c9%3A0x9382d10df151ad2e!2z0J3QuNC60L7Qu9Cw0LXQstGB0LrQsNGPINC-0LHQu9Cw0YHRgtGM!5e0!3m2!1sru!2sua!4v1585406198748!5m2!1sru!2sua" width="600" height="450" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
             </div>
         </article>
 
@@ -48,7 +48,7 @@
 
 <script>
     import axios from "axios"
-    // import googleMap from '~/components/googleMap.vue'
+    // import googleMap from "@/components/googleMap";
 
     export default {
         name: "Mykolaiv",
@@ -220,8 +220,22 @@
                     }
                 }
             }
+            div.map {
+                padding: 0 40px 30px;
+            }
         }
     }
+
+    @media (min-width: 575.9px) and (max-width: 992px) {
+        section.container {
+            article.row.choice_district {
+                div.map {
+                    padding: 40px 0;
+                }
+            }
+        }
+    }
+
 
     @media (max-width: 576px) {
         section.container {
@@ -270,6 +284,9 @@
 
                         }
                     }
+                }
+                div.map {
+                    padding: 40px 0;
                 }
             }
         }
