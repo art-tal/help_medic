@@ -62,11 +62,11 @@
                 <h2 class="text-center"  v-if="needs.length > 0">Що нам необхідно</h2>
                 <h2 class="text-center"  v-else>Немає даних</h2>
 
-                <div class="row add p-0">
-                    <div class="col-lg-3 col-md-5 pl-0">
-                        <button class="btn btn-dark" @click="showFormNeed()">Додати необхідне</button>
-                    </div>
-                </div>
+<!--                <div class="row add p-0">-->
+<!--                    <div class="col-lg-3 col-md-5 pl-0">-->
+<!--                        <button class="btn btn-dark" @click="showFormNeed()">Додати необхідне</button>-->
+<!--                    </div>-->
+<!--                </div>-->
 
 
                 <div class="row header font-weight-bold" v-if="needs.length > 0">
@@ -79,7 +79,7 @@
                     <div class="col-1 text-center"></div>
                 </div>
 
-                <div class="row" v-for="(need, key) in needs" :key="key">
+                <div class="row" v-for="(need, key) in needs" :key="key" @click="startEdit(edit)">
                     <div class="sub_header col-5 font-weight-bold">Назва</div>
                     <div class="col-lg-2 col-7">{{need.medication_name}}</div>
 
@@ -91,16 +91,16 @@
 
                     <div class="sub_header col-5 font-weight-bold">Наявнівсть, шт.</div>
                     <div class="col-lg-2 col-7 text-center">
-<!--                        {{need.count_available}}-->
-                        <input type="text" v-model="need.count_available" :disabled="!need.show" >
+                        <span v-if="need.edit">{{need.count_available}}</span>
+                        <input type="text" v-model="need.count_available" v-else pattern="/d">
 <!--                        <i class="fas fa-pencil-alt" @click="startEdit(need, need.count_available)" v-if="editField"></i>-->
 <!--                        <i class="far fa-check-circle" @click="endEdit(need, need.count_available)" v-else></i>-->
                     </div>
 
                     <div class="sub_header col-5 font-weight-bold">Необхідно, шт.</div>
                     <div class="col-lg-2 col-7 text-center">
-<!--                        {{need.count_needed}}-->
-                        <input type="text" v-model="need.count_needed" :disabled="'needitem' + key">
+                        <span v-if="need.edit" @click="startEdit(need)">{{need.count_needed}}</span>
+                        <input type="text" v-model="need.count_needed" v-if="!need.edit" pattern="/d">
 <!--                        <i class="fas fa-pencil-alt" @click="startEdit(need.count_needed)" v-if="editField"></i>-->
 <!--                        <i class="far fa-check-circle" @click="endEdit(need, need.count_available)" v-else></i>-->
                     </div>
@@ -109,8 +109,10 @@
                     <div class="col-lg-2 col-7 text-center">{{need.cost_hrn}}</div>
 
 
-                    <i class="fas fa-pencil-alt col-1" @click="startEdit('needitem' + key)" v-if="'needitem' + key"></i>
-                    <i class="far fa-check-circle col-1" @click="endEdit('needitem' + key)" v-else></i>
+                    <div class="col-1 text-center">
+                        <i class="fas fa-pencil-alt" @click="startEdit(need) " title="Редактувати" v-if="need.edit"></i>
+                        <i class="far fa-check-circle" @click="endEdit(need) " title="Зберегти" v-else></i>
+                    </div>
 
                 </div>
             </div>
@@ -138,11 +140,11 @@
         data() {
             return {
                 // showForm: false,
-                area: null,
-                city: null,
-                hospitalId: null,
-                hospital: null,
-                needs: null,
+                area: "",
+                city: "",
+                hospitalId: "",
+                hospital: {},
+                needs: [],
 
                 editField: true,
             }
@@ -171,7 +173,11 @@
             // eventEmitter.$on("closeFormNeed", this.showFormNeed);
         },
 
-
+        // watch: {
+        //     'need.edit'(need) {
+        //         return need.edit;
+        //     }
+        // },
 
 
 
@@ -218,11 +224,12 @@
                 )
                 .then( (response) => {
                     this.needs = response.data;
+                    this.needs.forEach( (n) => { this.$set(n, "edit", true) } );
                     console.log("needs");
                     console.log(this.needs);
                     /////////////
                     for (let i=0; i<10; ++i) {
-                        this.needs.push(this.needs[0]);
+                        this.needs.push(Object.assign(  {}, this.needs[0] ) );
                     }
 
                 } )
@@ -231,6 +238,46 @@
                     console.log(error);
                 } )
             },
+
+            startEdit(need) {
+                need.edit = false;
+                console.log(need);
+                // return field;
+            },
+
+            endEdit(need) {
+                let formData = new FormData();
+                formData.append("id", parseInt(need.id) );
+                formData.append("count_available", parseInt( need.count_available ));
+                formData.append("count_needed", parseInt( need.count_needed ));
+                axios({
+                    methods: 'post',
+                    url:'https://helpmedic.atlant-mega.com/ajax/need/edit',
+                    // data: formData,
+                    data: {
+                        id: parseInt(need.id),
+                        count_available: parseInt( need.count_available ),
+                        count_needed: parseInt( need.count_needed )
+                    }
+                })
+                        .then( (response) => {
+                            console.log("Данные переданы успешно");
+                            console.log(response);
+                        } )
+                        .catch( (error) => {
+                            console.log("Ошибка передачи данных");
+                            console.log(error);
+                        } )
+                need.edit = true;
+                console.log( need.id );
+                console.log(typeof ( parseInt( need.count_available )) );
+                console.log(typeof ( parseInt( need.count_needed )) );
+            },
+
+
+
+
+
 
             findCity() {
                 // axios.get(
@@ -304,17 +351,7 @@
             //     console.log(this.showForm);
             // },
 
-            startEdit(need) {
-                need.show = true;
-                console.log(need);
-                // return field;
-            },
 
-            endEdit(need) {
-                need.show = false;
-                console.log(need.show);
-                // return field;
-            },
 
         },
     }
@@ -371,30 +408,39 @@
                     margin-bottom: 30px;
                 }
 
-                .row.add{
-                    border: none;
-                    position: sticky;
-                    top: 10px;
-                    background-color: #fff;
-                    div {
-                        border: none;
-                        padding: 0;
-                        button.btn.btn-dark {
-                            @include button;
+                /*.row.add{*/
+                /*    border: none;*/
+                /*    position: sticky;*/
+                /*    top: 10px;*/
+                /*    background-color: #fff;*/
+                /*    div {*/
+                /*        border: none;*/
+                /*        padding: 0;*/
+                /*        button.btn.btn-dark {*/
+                //            @include button;
                             /*width: 200px;*/
-                            margin-bottom: 20px;
-                        }
-                    }
-                }
+                            /*margin-bottom: 20px;*/
+                        /*}*/
+                    /*}*/
+                /*}*/
 
                 .row.header, .row {
                     font-size: 1.2rem;
                     div {
                         border: 1px solid #aaaaaa;
                         padding: 5px;
-                        &:first-child {
-                            padding-left: 15px;
+                        .fas.fa-pencil-alt {
+                            color: blue;
+                            cursor: pointer;
                         }
+                        .far.fa-check-circle {
+                            color: forestgreen;
+                            cursor: pointer;
+                        }
+
+                        /*&:first-child {*/
+                        /*    padding-left: 15px;*/
+                        /*}*/
                         &.sub_header {
                             display: none;
                         }
@@ -451,8 +497,11 @@
                             &:first-child {
                                 padding-left: 5px;
                             }
-                            &:last-child, &:nth-child(11) {
+                            &:nth-child(12), &:nth-child(11) {
                                 border-bottom: none;
+                            }
+                            &:last-child {
+                                border: none;
                             }
                             &.sub_header {
                                 text-align: left;
@@ -513,8 +562,11 @@
                             &:first-child {
                                 padding-left: 5px;
                             }
-                            &:last-child, &:nth-child(11) {
+                            &:nth-child(12), &:nth-child(11) {
                                 border-bottom: none;
+                            }
+                            &:last-child {
+                                border: none;
                             }
                             &.sub_header {
                                 text-align: left;

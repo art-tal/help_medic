@@ -21,7 +21,7 @@
             <div class="row" v-for="(need, key) in needs" :key="key">
                 <div class="col-5 sub_header">Лікарня</div>
                 <div class="col-lg-3 col-7">
-                    <a @click.prevent="setHospital(hosp)">{{need.hospital_name}}</a>
+                    <a @click.prevent="setHospital(need.hospital_id)">{{need.hospital_name}}</a>
                 </div>
                 <div class="col-5 sub_header">Назва</div>
                 <div class="col-lg-3 col-7">{{need.medication_name}}</div>
@@ -99,7 +99,7 @@
             setHospital(hospital) {
                 this.$store.state.hospital = hospital;
                 // console.log(hospital)
-                this.$router.push({name: "hospital", params: {id: hospital.id}});
+                this.$router.push({name: "hospital", params: {id: hospital}});
             },
 
         },
@@ -141,6 +141,7 @@
                     }
                     a {
                         color: darkblue;
+                        cursor: pointer;
                     }
                 }
 

@@ -51,12 +51,12 @@
 
         computed: {
           getArea() {
-              console.log(this.$store.getters.getArea);
+              // console.log(this.$store.getters.getArea);
               return this.$store.getters.getArea
           },
 
             getCity() {
-                console.log(this.$store.getters.getCity);
+                // console.log(this.$store.getters.getCity);
               return this.$store.getters.getCity;
             },
         },
