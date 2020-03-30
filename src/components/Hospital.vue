@@ -1,14 +1,62 @@
 <template>
-    <section class="hospital container">
+    <section class="hospital container-fluid">
         <header>
-            <h1>{{hospital.name}}</h1>
+            <h1 class="text-center">{{hospital.name}}</h1>
         </header>
 
         <div class="body">
             <div class="data_hospital row">
-                <div class="map col-lg-6 col-12">
-<!--                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d821116.2854233051!2d31.588305633583683!3d47.4672520037775!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40c59abab155d4c9%3A0x9382d10df151ad2e!2z0J3QuNC60L7Qu9Cw0LXQstGB0LrQsNGPINC-0LHQu9Cw0YHRgtGM!5e0!3m2!1sru!2sua!4v1585406198748!5m2!1sru!2sua" width="600" height="450" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>-->
-                </div>
+
+                <article class="filters col-lg-6 col-12">
+                    <header>
+                        <h1>Фільтри</h1>
+
+                        <div class="filter_list row">
+                            <h5 class="col-12">Обрані фільтри:</h5>
+                            <div class="filter_item col-md-4 col-5" v-for="(filtItem, key) in filters" :key="key">
+                                <span>{{filtItem}}</span>
+                                <i class="far fa-times-circle" @click="deleteFilter(filtItem, key)"></i>
+                            </div>
+                        </div>
+                    </header>
+
+                    <form name="body">
+
+                        <div class="type">
+                            <label for="type" class="font-weight-bold">Тип препарату</label>
+                            <select name="type" id="type"
+                                    v-model="filterType"
+                                    @change="selectedFilter(filterType)">
+                                <option value="Не обрано" disabled selected>Не обрано</option>
+                                <option
+                                        v-for="(type, key) in types"
+                                        :key="key"
+                                        :value="type.name"
+                                >{{type.name}}</option>
+                            </select>
+                        </div>
+
+                        <div class="first_need">
+                            <input id="first_need" type="checkbox" v-model="filterFirstNeed" :value="filterFirstNeed" @change="checkFilter('Є першою необхідністю')">
+                            <label for="first_need" class="font-weight-bold">
+                                Є першою необхідністю
+                                <span><i class="fas fa-check"></i></span>
+                            </label>
+                        </div>
+
+                        <div class="reset">
+                            <input type="reset"
+                                   class="btn btn-dark"
+                                   @click="reset()"
+                                   value="Скинути усі фільтри">
+                        </div>
+
+
+
+                    </form>
+
+                </article>
+
                 <div class="data col-lg-6 col-12">
 
 <!--                    <div class="field row">-->
@@ -71,11 +119,13 @@
 
                 <div class="row header font-weight-bold" v-if="needs.length > 0">
                     <div class="col-2 text-center">Назва</div>
+                    <div class="col-1 text-center">Країна походження</div>
+                    <div class="col-1 text-center">Постачальник</div>
                     <div class="col-1 text-center">Тип</div>
-                    <div class="col-2 text-center">Пакування</div>
-                    <div class="col-2 text-center">Наявнівсть, шт.</div>
-                    <div class="col-2 text-center">Необхідно, шт.</div>
-                    <div class="col-2 text-center">Орієнтовна вартість, грн.</div>
+                    <div class="col-3 text-center">Опис</div>
+                    <div class="col-1 text-center">Наявнівсть, шт.</div>
+                    <div class="col-1 text-center">Необхідно, шт.</div>
+                    <div class="col-1 text-center">Орієнтовна вартість, грн.</div>
                     <div class="col-1 text-center"></div>
                 </div>
 
@@ -83,14 +133,20 @@
                     <div class="sub_header col-5 font-weight-bold">Назва</div>
                     <div class="col-lg-2 col-7">{{need.medication_name}}</div>
 
+                    <div class="sub_header col-5 font-weight-bold">Країна походження</div>
+                    <div class="col-lg-1 col-7 text-center">{{need.vendor_country}}</div>
+
+                    <div class="sub_header col-5 font-weight-bold">Постачальник</div>
+                    <div class="col-lg-1 col-7 text-center">{{need.vendor}}</div>
+
                     <div class="sub_header col-5 font-weight-bold">Тип</div>
                     <div class="col-lg-1 col-7 text-center">{{need.type_drug_name}}</div>
 
-                    <div class="sub_header col-5 font-weight-bold">Пакування</div>
-                    <div class="col-lg-2 col-7 text-center">{{need.description}}</div>
+                    <div class="sub_header col-5 font-weight-bold">Опис</div>
+                    <div class="col-lg-3 col-7 text-center">{{need.description}}</div>
 
                     <div class="sub_header col-5 font-weight-bold">Наявнівсть, шт.</div>
-                    <div class="col-lg-2 col-7 text-center">
+                    <div class="col-lg-1 col-7 text-center">
                         <span v-if="need.edit">{{need.count_available}}</span>
                         <input type="text" v-model="need.count_available" v-else pattern="/d">
 <!--                        <i class="fas fa-pencil-alt" @click="startEdit(need, need.count_available)" v-if="editField"></i>-->
@@ -98,7 +154,7 @@
                     </div>
 
                     <div class="sub_header col-5 font-weight-bold">Необхідно, шт.</div>
-                    <div class="col-lg-2 col-7 text-center">
+                    <div class="col-lg-1 col-7 text-center">
                         <span v-if="need.edit" @click="startEdit(need)">{{need.count_needed}}</span>
                         <input type="text" v-model="need.count_needed" v-if="!need.edit" pattern="/d">
 <!--                        <i class="fas fa-pencil-alt" @click="startEdit(need.count_needed)" v-if="editField"></i>-->
@@ -106,7 +162,7 @@
                     </div>
 
                     <div class="sub_header col-5 font-weight-bold">Орієнтовна вартість, грн.</div>
-                    <div class="col-lg-2 col-7 text-center">{{need.cost_hrn}}</div>
+                    <div class="col-lg-1 col-7 text-center">{{need.cost_hrn}}</div>
 
 
                     <div class="col-1 text-center">
@@ -116,10 +172,7 @@
 
                 </div>
             </div>
-<!--            v-if="getShowForm"-->
-<!--            <div class="form" >-->
-<!--                <form-need></form-need>-->
-<!--            </div>-->
+
 
         </div>
     </section>
@@ -127,41 +180,36 @@
 
 <script>
     import axios from "axios"
-    // import FormNeed from "@/components/FormNeed";
     // import {eventEmitter} from "@/main";
 
     export default {
         name: "Hospital",
 
         components: {
-            // FormNeed,
+
         },
 
         data() {
             return {
-                // showForm: false,
                 area: "",
                 city: "",
                 hospitalId: "",
                 hospital: {},
                 needs: [],
 
-                editField: true,
+                types: [],
+
+                filters: [],
+                // filters: new Map,
+                filterType: "Не обрано",
+                filterFirstNeed: false,
             }
         },
 
         computed: {
-            // getHospital() {
-            //     return this.$store.getters.getHospital;
-            // },
-
-            // getHospitalId() {
-            //     console.log(this.route.params.id);
-            //   return this.route.params.id;
-            // }
-            // getShowForm() {
-            //     return this.showForm;
-            // },
+            filtered() {
+                return 0;
+            }
         },
 
         created() {
@@ -169,15 +217,11 @@
             this.gettingHospital();
             this.getNeeds();
             this.findCity();
-            // this.findArea();
-            // eventEmitter.$on("closeFormNeed", this.showFormNeed);
         },
 
-        // watch: {
-        //     'need.edit'(need) {
-        //         return need.edit;
-        //     }
-        // },
+        mounted() {
+            this.getType();
+        },
 
 
 
@@ -225,12 +269,6 @@
                 .then( (response) => {
                     this.needs = response.data;
                     this.needs.forEach( (n) => { this.$set(n, "edit", true) } );
-                    console.log("needs");
-                    console.log(this.needs);
-                    /////////////
-                    for (let i=0; i<10; ++i) {
-                        this.needs.push(Object.assign(  {}, this.needs[0] ) );
-                    }
 
                 } )
                 .catch( (error) => {
@@ -242,18 +280,12 @@
             startEdit(need) {
                 need.edit = false;
                 console.log(need);
-                // return field;
             },
 
             endEdit(need) {
-                let formData = new FormData();
-                formData.append("id", parseInt(need.id) );
-                formData.append("count_available", parseInt( need.count_available ));
-                formData.append("count_needed", parseInt( need.count_needed ));
                 axios({
-                    methods: 'post',
-                    url:'https://helpmedic.atlant-mega.com/ajax/need/edit',
-                    // data: formData,
+                    methods: 'get',
+                    url:`https://helpmedic.atlant-mega.com/ajax/need/edit?id= ${parseInt(need.id)}&count_available=${parseInt( need.count_available )}&count_needed=${parseInt( need.count_needed )}`,
                     data: {
                         id: parseInt(need.id),
                         count_available: parseInt( need.count_available ),
@@ -267,16 +299,57 @@
                         .catch( (error) => {
                             console.log("Ошибка передачи данных");
                             console.log(error);
-                        } )
+                        } );
                 need.edit = true;
-                console.log( need.id );
-                console.log(typeof ( parseInt( need.count_available )) );
-                console.log(typeof ( parseInt( need.count_needed )) );
             },
 
+            getType() {
+                axios.get("https://helpmedic.atlant-mega.com/ajax/medication/all_type")
+                .then( (response) => {
+                    this.types = response.data;
+                    console.log(this.types);
+                } )
+                .catch( (error) => {
+                    console.log("Ошибка типов препаратов");
+                    console.log(error);
+                } )
+            },
 
+            selectedFilter(filt) {
+                if (this.filters.indexOf(filt) < 0) {
+                    this.filters.push(filt);
+                }
+            },
 
+            checkFilter(filt) {
+                if (this.filters.indexOf(filt) < 0) {
+                    this.filters.push(filt);
+                } else {
+                    let index = this.filters.indexOf(filt);
+                    this.filters.splice(index, 1);
+                }
+            },
 
+            deleteFilter(filt, key) {
+                console.log(this.filterType);
+                switch (filt) {
+                    case 'Обладнання':
+                    case 'Захист':
+                    case 'Транспорт':
+                        this.filterType = "Не обрано";
+                        break;
+                    case 'Є першою необхідністю':
+                        this.filterFirstNeed = false;
+                        break;
+                }
+                this.filters.splice(key, 1);
+            },
+
+            reset() {
+                this.filters = [];
+                this.filterType = "";
+                this.filterFirstNeed = false;
+            },
 
 
             findCity() {
@@ -332,7 +405,6 @@
             //         } )
 
 
-
                 // axios.get(
                 //     "https://helpmedic.atlant-mega.com/ajax/areas"
                 // )
@@ -346,13 +418,6 @@
                 //     } )
             // },
 
-            // showFormNeed() {
-            //     this.showForm = !this.showForm;
-            //     console.log(this.showForm);
-            // },
-
-
-
         },
     }
 </script>
@@ -365,27 +430,108 @@
         padding: 0;
     }
 
-
-
-    section.hospital.container {
-        margin: 30px auto 60px;
+    section.hospital.container-fluid {
+        margin: 30px 0px 60px;
+        padding: 0 30px;
         header {
             margin-bottom: 30px;
             h1 {
                 font-size: 2rem;
+                text-decoration: underline;
             }
         }
 
         .body {
             .data_hospital.row {
-                .map {
-                    padding: 10px 30px 10px 0;
+                width: 1024px;
+                margin: 0 auto;
+                .filters {
+                    padding: 25px 20px 0 0;
+                    header {
+                        h1 {
+                            font-size: 1.75rem;
+                            margin-bottom: 15px;
+                        }
+                        .filter_list {
+                            h5 {
+                                margin-bottom: 10px;
+                            }
+                            .filter_item {
+                                padding: 5px;
+                                border: 1px solid #aaaaaa;
+                                border-radius: 5px;
+                                margin: 5px;
+                                position: relative;
+                                span {display: inline-block;}
+                                i {
+                                    display: inline-block;
+                                    position: absolute;
+                                    top: 5px;
+                                    right: -140px;
+                                }
+                            }
+                        }
+
+                    }
+
+                    form {
+                        .type {
+                            label {
+                                margin-bottom: 5px;
+                            }
+                            select {
+                                @include select;
+                                width: 60%;
+                            }
+                        }
+                        .first_need {
+                            label {
+                                margin-bottom: 5px;
+                                display: inline-block;
+                                span {
+                                    vertical-align: middle;
+                                    margin: 0;
+                                    margin-left: 15px;
+                                    padding: 0;
+                                    width: 18px;
+                                    height: 18px;
+                                    border: 1px solid #aaaaaa;
+                                    border-radius: 4px;
+                                    display: inline-block;
+                                    i {
+                                        display: none;
+                                        color: forestgreen;
+                                        font-size: 1.5rem;
+                                        position: relative;
+                                        top: -7px;
+                                        left: -1px;
+                                    }
+                                }
+                            }
+                            input[type='checkbox'] {
+                                display: none;
+                                &:checked + label > span > i {
+                                    display: inline;
+                                }
+                            }
+                        }
+                        .reset {
+                            margin-top: 15px;
+                            input[type='reset'] {
+                                @include button;
+                                width: 60%;
+                            }
+
+
+                        }
+                    }
                 }
+
                 .data {
                     padding-top: 25px;
                     .field.row {
                         border-bottom: 1px solid #dddddd;
-                        padding: 15px 0;
+                        padding: 20px 0;
                         div {
                             font-size: 1.3rem;
                             color: $font_color;
@@ -398,6 +544,8 @@
                             }
 
                         }
+
+
                     }
                 }
             }
@@ -407,25 +555,11 @@
                 h2 {
                     margin-bottom: 30px;
                 }
-
-                /*.row.add{*/
-                /*    border: none;*/
-                /*    position: sticky;*/
-                /*    top: 10px;*/
-                /*    background-color: #fff;*/
-                /*    div {*/
-                /*        border: none;*/
-                /*        padding: 0;*/
-                /*        button.btn.btn-dark {*/
-                //            @include button;
-                            /*width: 200px;*/
-                            /*margin-bottom: 20px;*/
-                        /*}*/
-                    /*}*/
-                /*}*/
-
-                .row.header, .row {
-                    font-size: 1.2rem;
+                .row.header {
+                    font-size: 1vw;
+                }
+                .row {
+                    font-size: 1.2vw;
                     div {
                         border: 1px solid #aaaaaa;
                         padding: 5px;
@@ -450,22 +584,147 @@
         }
     }
 
-    @media (min-width: 575.9px) and (max-width: 992px) {
-    /*@media (max-width: 992px) {*/
-        section.hospital.container {
+    @media (min-width: 992px) and (max-width: 1199.9px) {
+        section.hospital.container-fluid {
+            .body {
+                .data_hospital.row {
+                    .filters {
+                        header {
+                            .filter_list {
+                                .filter_item {
+                                    i {
+                                        position: absolute;
+                                        top: 5px;
+                                        right: -140px;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                .needs {
+                    .row.header {
+                        font-size: 1vw;
+                    }
+                    .row {
+                        font-size: 1.3vw;
+                        div {
+                            border: 1px solid #aaaaaa;
+                            padding: 5px;
+                            .fas.fa-pencil-alt {
+                                color: blue;
+                                cursor: pointer;
+                            }
+                            .far.fa-check-circle {
+                                color: forestgreen;
+                                cursor: pointer;
+                            }
+
+                            /*&:first-child {*/
+                            /*    padding-left: 15px;*/
+                            /*}*/
+                            &.sub_header {
+                                display: none;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    @media (min-width: 768px) and (max-width: 991.9px) {
+        section.hospital.container-fluid {
             min-width: 470px;
             header {
                 h1 {
                     text-align: center;
                 }
             }
+
+
+
             .body {
                 .data_hospital.row {
-                    .map {
-                        padding: 0;
+                    width: 100%;
+                    .filters {
+                        header {
+                            .filter_list {
+                                justify-content: space-around;
+                                .filter_item {
+                                    i {
+                                        width: 100%;
+                                        height: 100%;
+                                        top: 0;
+                                        right: 0px;
+                                        vertical-align: top;
+                                        opacity: 0;
+                                        cursor: pointer;
+                                    }
+                                }
+                            }
+                        }
+
+                        form {
+                            text-align: center;
+
+                            .type {
+                                label {
+                                    margin-bottom: 5px;
+                                }
+                                select {
+                                    @include select;
+                                    width: 60%;
+                                }
+                            }
+                            .first_need {
+                                label {
+                                    margin-bottom: 5px;
+                                    display: inline-block;
+                                    span {
+                                        vertical-align: middle;
+                                        margin: 0;
+                                        margin-left: 15px;
+                                        padding: 0;
+                                        width: 18px;
+                                        height: 18px;
+                                        border: 1px solid #aaaaaa;
+                                        border-radius: 4px;
+                                        display: inline-block;
+                                        i {
+                                            display: none;
+                                            color: forestgreen;
+                                            font-size: 1.5rem;
+                                            position: relative;
+                                            top: -7px;
+                                            left: -1px;
+                                        }
+                                    }
+                                }
+                                input[type='checkbox'] {
+                                    display: none;
+                                    &:checked + label > span > i {
+                                        display: inline;
+                                    }
+                                }
+                            }
+                            .reset {
+                                margin-top: 15px;
+                                input[type='reset'] {
+                                    @include button;
+                                    width: 60%;
+                                }
+
+
+                            }
+                        }
+                    }
+
+                    .data {
+                        order: -1;
                     }
                 }
-
                 .needs {
                     .header {
                         display: none;
@@ -478,7 +737,6 @@
                             padding: 0;
                             button.btn.btn-dark {
                                 @include button;
-                                /*width: 200px;*/
                                 margin-bottom: 20px;
                             }
                         }
@@ -490,6 +748,7 @@
                         border-radius: 15px;
                         padding: 15px;
                         div {
+                            font-size: 1.2rem;
                             border: none;
                             border-bottom: 1px solid #aaaaaa;
                             padding: 5px;
@@ -497,7 +756,112 @@
                             &:first-child {
                                 padding-left: 5px;
                             }
-                            &:nth-child(12), &:nth-child(11) {
+                            &:nth-child(15), &:nth-child(16) {
+                                border-bottom: none;
+                            }
+                            &:last-child {
+                                border: none;
+                            }
+                            &.sub_header {
+                                text-align: left;
+                                display: block;
+                                font-weight: bold;
+                                border-right: 1px solid #aaaaaa;
+
+                            }
+
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    @media (min-width: 576px) and (max-width: 767.9px) {
+        section.hospital.container-fluid {
+            min-width: 470px;
+            header {
+                h1 {
+                    text-align: center;
+                }
+            }
+
+            .body {
+                .data_hospital.row {
+                    width: 100%;
+                    .filters {
+                        padding-right: 0;
+                        header {
+                            .filter_list {
+                                justify-content: space-around;
+                                .filter_item {
+                                    i {
+                                        width: 100%;
+                                        height: 100%;
+                                        top: 0;
+                                        right: 0px;
+                                        vertical-align: top;
+                                        opacity: 0;
+                                        cursor: pointer;
+                                    }
+                                }
+                            }
+                        }
+
+                        form {
+                            .type {
+                                margin-bottom: 30px;
+                                select {
+                                    width: 100%;
+                                }
+                            }
+                            .first_need {
+                                label {
+                                    margin-bottom: 30px;
+                                    span {
+                                        width: 26px;
+                                        height: 26px;
+                                        i {
+                                            font-size: 2rem;
+                                            top: -8px;
+                                            left: 1px;
+                                        }
+                                    }
+                                }
+                            }
+                            .reset {
+                                input[type='reset'] {
+                                    width: 100%;
+                                }
+
+
+                            }
+                        }
+                    }
+
+                    .data {
+                        order: -1;
+                    }
+                }
+
+                .needs {
+                    .header {
+                        display: none;
+                    }
+                    .row {
+                        font-size: 1.2rem;
+                        border: 2px solid #aaaaaa;
+                        border-radius: 15px;
+                        padding: 15px;
+                        div {
+                            border: none;
+                            border-bottom: 1px solid #aaaaaa;
+                            padding: 5px;
+                            text-align: center;
+                            &:first-child {
+                                padding-left: 5px;
+                            }
+                            &:nth-child(15), &:nth-child(16) {
                                 border-bottom: none;
                             }
                             &:last-child {
@@ -519,7 +883,7 @@
     }
 
     @media (max-width: 576px) {
-        section.hospital.container {
+        section.hospital.container-fluid {
             min-width: 470px;
             padding-left: 20px;
             padding-right: 20px;
@@ -530,8 +894,62 @@
             }
             .body {
                 .data_hospital.row {
-                    .map {
-                        padding: 0;
+                    width: 100%;
+                    .filters {
+                        justify-content: space-around;
+                        padding-right: 0;
+                        header {
+                            .filter_list {
+                                .filter_item {
+                                    span {
+                                        display: inline;
+                                    }
+                                    i {
+                                        width: 100%;
+                                        height: 100%;
+                                        top: 0;
+                                        right: 0px;
+                                        vertical-align: top;
+                                        opacity: 0;
+                                        cursor: pointer;
+                                    }
+                                }
+                            }
+                        }
+
+                        form {
+                            .type {
+                                margin-bottom: 30px;
+                                select {
+                                    width: 100%;
+                                }
+                            }
+                            .first_need {
+                                label {
+                                    margin-bottom: 30px;
+                                    span {
+                                        width: 26px;
+                                        height: 26px;
+                                        i {
+                                            font-size: 2rem;
+                                            top: -8px;
+                                            left: 1px;
+                                        }
+                                    }
+                                }
+                            }
+                            .reset {
+                                input[type='reset'] {
+                                    width: 100%;
+                                }
+
+
+                            }
+                        }
+                    }
+
+                    .data {
+                        order: -1;
                     }
                 }
 
@@ -554,6 +972,7 @@
                         border: 2px solid #aaaaaa;
                         border-radius: 15px;
                         padding: 15px;
+                        font-size: 1.2rem;
                         div {
                             border: none;
                             border-bottom: 1px solid #aaaaaa;
@@ -562,7 +981,7 @@
                             &:first-child {
                                 padding-left: 5px;
                             }
-                            &:nth-child(12), &:nth-child(11) {
+                            &:nth-child(15), &:nth-child(16) {
                                 border-bottom: none;
                             }
                             &:last-child {
@@ -582,5 +1001,7 @@
             }
         }
     }
+
+
 
 </style>

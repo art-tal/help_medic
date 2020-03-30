@@ -185,11 +185,11 @@
                     }
 
                     select {
-                        /*height: 64px;*/
-                        margin-bottom: 15px;
-                        border: 1px solid #00AEEF;
-                        padding: 10px 15px;
-                        border-radius: 10px;
+                        @include select;
+                        /*margin-bottom: 15px;*/
+                        /*border: 1px solid #00AEEF;*/
+                        /*padding: 10px 15px;*/
+                        /*border-radius: 10px;*/
                         h3 {
                             @include flex;
                             justify-content: space-between;

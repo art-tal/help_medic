@@ -9,10 +9,12 @@
 <!--            <button class="btn btn-dark">Cортувати за найбільшою потребою</button>-->
 
             <div class="row header font-weight-bold">
-                <div class="col-3 text-center">Лікарня</div>
-                <div class="col-3 text-center">Назва</div>
+                <div class="col-2 text-center">Лікарня</div>
+                <div class="col-2 text-center">Назва</div>
+                <div class="col-1 text-center">Країна походження</div>
+                <div class="col-1 text-center">Постачальник</div>
                 <div class="col-1 text-center">Тип</div>
-                <div class="col-2 text-center">Пакування</div>
+                <div class="col-2 text-center">Опис</div>
                 <div class="col-1 text-center">Наявнівсть, шт.</div>
                 <div class="col-1 text-center">Необхідно, шт.</div>
                 <div class="col-1 text-center">Орієнтовна вартість, грн.</div>
@@ -20,20 +22,30 @@
 
             <div class="row" v-for="(need, key) in needs" :key="key">
                 <div class="col-5 sub_header">Лікарня</div>
-                <div class="col-lg-3 col-7">
+                <div class="col-lg-2 col-7">
                     <a @click.prevent="setHospital(need.hospital_id)">{{need.hospital_name}}</a>
                 </div>
                 <div class="col-5 sub_header">Назва</div>
-                <div class="col-lg-3 col-7">{{need.medication_name}}</div>
+                <div class="col-lg-2 col-7">{{need.medication_name}}</div>
+
+                <div class="col-5 sub_header">Країна походження</div>
+                <div class="col-lg-1 col-7">{{need.vendor_country}}</div>
+
+                <div class="col-5 sub_header">Постачальник</div>
+                <div class="col-lg-1 col-7">{{need.vendor}}</div>
+
                 <div class="col-5 sub_header">Тип</div>
                 <div class="col-lg-1 col-7">{{need.type_drug_name}}</div>
-<!--                <div class="col-5 sub_header">Форма відпуску</div>-->
-                <div class="col-5 sub_header">Пакування</div>
+
+                <div class="col-5 sub_header">Опис</div>
                 <div class="col-lg-2 col-7">{{need.description}}</div>
+
                 <div class="col-5 sub_header">Наявнівсть, шт.</div>
                 <div class="col-lg-1 col-7">{{need.count_available}}</div>
+
                 <div class="col-5 sub_header">Необхідно, шт.</div>
                 <div class="col-lg-1 col-7">{{need.count_needed}}</div>
+
                 <div class="col-5 sub_header">Орієнтовна вартість, грн.</div>
                 <div class="col-lg-1 col-7">{{need.cost_hrn}}</div>
             </div>
@@ -136,12 +148,18 @@
                 div {
                     padding: 5px;
                     border: 1px solid #aaaaaa;
+                    font-size: 1.2vw;
                     &.sub_header {
                         display: none;
                     }
                     a {
                         color: darkblue;
                         cursor: pointer;
+                    }
+                }
+                &.header {
+                    div {
+                        font-size: 1vw;
                     }
                 }
 
@@ -155,6 +173,11 @@
                 .row {
                     div {
                         font-size: 1.3vw;
+                    }
+                    &.header {
+                        div {
+                            font-size: 1vw;
+                        }
                     }
 
                 }
@@ -179,6 +202,7 @@
                     margin-bottom: 15px;
                     padding: 15px;
                     div {
+                        font-size: 1.2rem;
                         padding: 5px;
                         border: none;
                         border-bottom: 1px solid #aaaaaa;

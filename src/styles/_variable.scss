@@ -12,3 +12,10 @@ $font_color: #020202;
   background-color: #929292;
   border-radius: 10px;
 }
+
+@mixin select {
+  margin-bottom: 15px;
+  border: 1px solid #00AEEF;
+  padding: 10px 15px;
+  border-radius: 10px;
+}
