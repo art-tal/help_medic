@@ -32,7 +32,7 @@
                 <div class="col-lg-1 col-7">{{need.vendor_country}}</div>
 
                 <div class="col-5 sub_header">Постачальник</div>
-                <div class="col-lg-1 col-7">{{need.vendor}}</div>
+                <div class="col-lg-1 col-7">{{need.vendor_name}}</div>
 
                 <div class="col-5 sub_header">Тип</div>
                 <div class="col-lg-1 col-7">{{need.type_drug_name}}</div>

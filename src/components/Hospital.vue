@@ -11,13 +11,13 @@
                     <header>
                         <h1>Фільтри</h1>
 
-                        <div class="filter_list row">
-                            <h5 class="col-12">Обрані фільтри:</h5>
-                            <div class="filter_item col-md-4 col-5" v-for="(filtItem, key) in filters" :key="key">
-                                <span>{{filtItem}}</span>
-                                <i class="far fa-times-circle" @click="deleteFilter(filtItem, key)"></i>
-                            </div>
-                        </div>
+<!--                        <div class="filter_list row">-->
+<!--                            <h5 class="col-12">Обрані фільтри:</h5>-->
+<!--                            <div class="filter_item col-md-4 col-5" v-for="(filtItem, key) in filters" :key="key">-->
+<!--                                <span>{{filtItem}}</span>-->
+<!--                                <i class="far fa-times-circle" @click="deleteFilter(filtItem, key)"></i>-->
+<!--                            </div>-->
+<!--                        </div>-->
                     </header>
 
                     <form name="body">
@@ -26,7 +26,9 @@
                             <label for="type" class="font-weight-bold">Тип препарату</label>
                             <select name="type" id="type"
                                     v-model="filterType"
-                                    @change="selectedFilter(filterType)">
+                                    @change="selectedFilter()"
+                                    >
+
                                 <option value="Не обрано" disabled selected>Не обрано</option>
                                 <option
                                         v-for="(type, key) in types"
@@ -36,8 +38,9 @@
                             </select>
                         </div>
 
+
                         <div class="first_need">
-                            <input id="first_need" type="checkbox" v-model="filterFirstNeed" :value="filterFirstNeed" @change="checkFilter('Є першою необхідністю')">
+                            <input id="first_need" type="checkbox" v-model="filterFirstNeed" value="1">
                             <label for="first_need" class="font-weight-bold">
                                 Є першою необхідністю
                                 <span><i class="fas fa-check"></i></span>
@@ -118,18 +121,44 @@
 
 
                 <div class="row header font-weight-bold" v-if="needs.length > 0">
-                    <div class="col-2 text-center">Назва</div>
-                    <div class="col-1 text-center">Країна походження</div>
-                    <div class="col-1 text-center">Постачальник</div>
-                    <div class="col-1 text-center">Тип</div>
+                    <div class="col-2 text-center">
+                        <span>Назва</span>
+                        <p>
+                            <i class="fas fa-sort-up" @click="sortName()"></i>
+                            <i class="fas fa-sort-down" @click="sortReverseNeeds(sortName)"></i>
+                        </p>
+                    </div>
+                    <div class="col-1 text-center">
+                        <span>Країна походження</span>
+                        <p>
+                            <i class="fas fa-sort-up" @click="sortCountry()"></i>
+                            <i class="fas fa-sort-down" @click="sortReverseNeeds(sortCountry)"></i>
+                        </p>
+                    </div>
+                    <div class="col-1 text-center">
+                        <span>Постачальник</span>
+                        <p>
+                            <i class="fas fa-sort-up" @click="sortVendor()"></i>
+                            <i class="fas fa-sort-down" @click="sortReverseNeeds(sortVendor)"></i>
+                        </p>
+                    </div>
+                    <div class="col-1 text-center">
+                        <span>Тип</span>
+                        <p>
+                            <i class="fas fa-sort-up" @click="sortType()"></i>
+                            <i class="fas fa-sort-down" @click="sortReverseNeeds(sortType)"></i>
+                        </p>
+                    </div>
                     <div class="col-3 text-center">Опис</div>
+                    <div class="col-1 text-center">Перша необхідність</div>
                     <div class="col-1 text-center">Наявнівсть, шт.</div>
                     <div class="col-1 text-center">Необхідно, шт.</div>
                     <div class="col-1 text-center">Орієнтовна вартість, грн.</div>
-                    <div class="col-1 text-center"></div>
+<!--                    <div class="col-1 text-center"></div>-->
                 </div>
 
-                <div class="row" v-for="(need, key) in needs" :key="key" @click="startEdit(edit)">
+<!--                <div class="row" v-for="(need, key) in needs" :key="key" @click="startEdit(edit)">-->
+                <div class="row" v-for="(need, key) in filtered" :key="key" @click="startEdit(edit)">
                     <div class="sub_header col-5 font-weight-bold">Назва</div>
                     <div class="col-lg-2 col-7">{{need.medication_name}}</div>
 
@@ -137,7 +166,7 @@
                     <div class="col-lg-1 col-7 text-center">{{need.vendor_country}}</div>
 
                     <div class="sub_header col-5 font-weight-bold">Постачальник</div>
-                    <div class="col-lg-1 col-7 text-center">{{need.vendor}}</div>
+                    <div class="col-lg-1 col-7 text-center">{{need.vendor_name}}</div>
 
                     <div class="sub_header col-5 font-weight-bold">Тип</div>
                     <div class="col-lg-1 col-7 text-center">{{need.type_drug_name}}</div>
@@ -145,30 +174,35 @@
                     <div class="sub_header col-5 font-weight-bold">Опис</div>
                     <div class="col-lg-3 col-7 text-center">{{need.description}}</div>
 
+                    <div class="sub_header col-5 font-weight-bold">Перша необхідність</div>
+                    <div class="col-lg-1 col-7 text-center" v-if="need.first_need">Так</div>
+                    <div class="col-lg-1 col-7 text-center" v-else>Ні</div>
+
+
                     <div class="sub_header col-5 font-weight-bold">Наявнівсть, шт.</div>
                     <div class="col-lg-1 col-7 text-center">
                         <span v-if="need.edit">{{need.count_available}}</span>
                         <input type="text" v-model="need.count_available" v-else pattern="/d">
-<!--                        <i class="fas fa-pencil-alt" @click="startEdit(need, need.count_available)" v-if="editField"></i>-->
-<!--                        <i class="far fa-check-circle" @click="endEdit(need, need.count_available)" v-else></i>-->
                     </div>
 
                     <div class="sub_header col-5 font-weight-bold">Необхідно, шт.</div>
                     <div class="col-lg-1 col-7 text-center">
                         <span v-if="need.edit" @click="startEdit(need)">{{need.count_needed}}</span>
                         <input type="text" v-model="need.count_needed" v-if="!need.edit" pattern="/d">
-<!--                        <i class="fas fa-pencil-alt" @click="startEdit(need.count_needed)" v-if="editField"></i>-->
-<!--                        <i class="far fa-check-circle" @click="endEdit(need, need.count_available)" v-else></i>-->
+
+                        <i class="fas fa-pencil-alt" @click="startEdit(need) " title="Редактувати" v-if="need.edit"></i>
+                        <i class="far fa-check-circle" @click="endEdit(need) " title="Зберегти" v-else></i>
+
                     </div>
 
                     <div class="sub_header col-5 font-weight-bold">Орієнтовна вартість, грн.</div>
                     <div class="col-lg-1 col-7 text-center">{{need.cost_hrn}}</div>
 
 
-                    <div class="col-1 text-center">
-                        <i class="fas fa-pencil-alt" @click="startEdit(need) " title="Редактувати" v-if="need.edit"></i>
-                        <i class="far fa-check-circle" @click="endEdit(need) " title="Зберегти" v-else></i>
-                    </div>
+<!--                    <div class="col-1 text-center">-->
+<!--                        <i class="fas fa-pencil-alt" @click="startEdit(need) " title="Редактувати" v-if="need.edit"></i>-->
+<!--                        <i class="far fa-check-circle" @click="endEdit(need) " title="Зберегти" v-else></i>-->
+<!--                    </div>-->
 
                 </div>
             </div>
@@ -200,17 +234,23 @@
                 types: [],
 
                 filters: [],
-                // filters: new Map,
-                filterType: "Не обрано",
-                filterFirstNeed: false,
+                filterType: "",//"Не обрано",
+                filterFirstNeed: 0,
             }
         },
 
         computed: {
             filtered() {
-                return 0;
-            }
+
+                return this.needs
+                    .filter( need => {
+                        return this.filterType  === "" || need.type_drug_name.indexOf(this.filterType) > -1  })
+                    .filter( need => {
+                        return +this.filterFirstNeed === 0 || need.first_need > 0
+                    } )
         },
+
+    },
 
         created() {
             this.hospitalId = this.$route.params.id;
@@ -315,40 +355,45 @@
                 } )
             },
 
-            selectedFilter(filt) {
-                if (this.filters.indexOf(filt) < 0) {
-                    this.filters.push(filt);
-                }
+            sortReverseNeeds(call) {
+                return this.needs = call().reverse();
             },
 
-            checkFilter(filt) {
-                if (this.filters.indexOf(filt) < 0) {
-                    this.filters.push(filt);
-                } else {
-                    let index = this.filters.indexOf(filt);
-                    this.filters.splice(index, 1);
-                }
+            sortName() {
+                return this.needs = this.needs.sort((prev, next) => {
+                    if ( prev.medication_name < next.medication_name ) return -1;
+                    if ( prev.medication_name < next.medication_name ) return 1;
+                });
             },
 
-            deleteFilter(filt, key) {
-                console.log(this.filterType);
-                switch (filt) {
-                    case 'Обладнання':
-                    case 'Захист':
-                    case 'Транспорт':
-                        this.filterType = "Не обрано";
-                        break;
-                    case 'Є першою необхідністю':
-                        this.filterFirstNeed = false;
-                        break;
-                }
-                this.filters.splice(key, 1);
+            sortCountry() {
+                return this.needs = this.needs.sort((prev, next) => {
+                    if ( prev.vendor_country < next.vendor_country ) return -1;
+                    if ( prev.vendor_country < next.vendor_country ) return 1;
+                });
             },
+
+            sortVendor() {
+                return this.needs = this.needs.sort((prev, next) => {
+                    if (prev.vendor_name < next.vendor_name) return -1;
+                    if (prev.vendor_name < next.vendor_name) return 1;
+                });
+            },
+
+            sortType() {
+                return this.needs = this.needs.sort((prev, next) => {
+                    if ( prev.type_drug_name < next.type_drug_name ) return -1;
+                    if ( prev.type_drug_name < next.type_drug_name ) return 1;
+                });
+            },
+
+
+
 
             reset() {
-                this.filters = [];
+                // this.filters = [];
                 this.filterType = "";
-                this.filterFirstNeed = false;
+                this.filterFirstNeed = 0;
             },
 
 
@@ -452,7 +497,7 @@
                             font-size: 1.75rem;
                             margin-bottom: 15px;
                         }
-                        .filter_list {
+                       /* .filter_list {
                             h5 {
                                 margin-bottom: 10px;
                             }
@@ -470,7 +515,7 @@
                                     right: -140px;
                                 }
                             }
-                        }
+                        }*/
 
                     }
 
@@ -557,13 +602,42 @@
                 }
                 .row.header {
                     font-size: 1vw;
+                    div {
+                        position: relative;
+                        p {
+                            display: inline-block;
+                            position: absolute;
+                            top: 10px;
+                            left: 5px;
+                            height: 100%;
+                            i {
+                                position: absolute;
+                                left: 0;
+                                width: 15px;
+                                font-size: 1.3rem;
+                                &.fa-sort-up {
+                                    top: 0;
+                                }
+                                &.fa-sort-down {
+                                    bottom: 15px;
+                                }
+                            }
+                        }
+                    }
+
                 }
                 .row {
                     font-size: 1.2vw;
                     div {
                         border: 1px solid #aaaaaa;
                         padding: 5px;
+                        input {
+                            text-align: center;
+                            padding: 3px;
+                            border-radius: 3px;
+                        }
                         .fas.fa-pencil-alt {
+                            margin-top: 15px;
                             color: blue;
                             cursor: pointer;
                         }
