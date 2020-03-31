@@ -56,10 +56,11 @@
     article.authorization.container-fluid {
         background-color: #f0f0f0;
         background-image: url(../image/back.jpg);
+        background-attachment: fixed;
         background-repeat: no-repeat;
         background-position: center 0;
-        -webkit-background-size: 100%;
-        background-size: 100%;
+        -webkit-background-size: cover;
+        background-size: cover;
         padding: 100px;
         .block {
             width: 700px;
@@ -89,11 +90,25 @@
             }
 
             .form.row {
-                max-height: 65vh;
-                overflow: scroll;
+                /*max-height: 65vh;*/
+                /*overflow: scroll;*/
             }
         }
 
+    }
+
+    @media (max-width: 991.9px) {
+        article.authorization.container-fluid {
+            -webkit-background-size: cover;
+            background-size: cover;
+            padding: 60px 0;
+            .block {
+                min-width: 470px;
+                width: 80%;
+
+            }
+
+        }
     }
 
 </style>

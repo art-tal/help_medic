@@ -1,10 +1,12 @@
 <template>
     <form name="login">
         <label for="mail">E-mail</label>
-        <input id="mail" type="email">
+        <span>{{checkEmail}}</span>
+        <input id="mail" type="email" v-model="eMail">
 
         <label for="password">Пароль</label>
-        <input id="password" type="password">
+        <span>{{checkPassword}}</span>
+        <input id="password" type="password" v-model="password">
 
         <button class="btn btn-dark">Відправити</button>
     </form>
@@ -16,9 +18,36 @@
 
         data() {
             return {
+                regexpEmail: /.+@.+\..+/i,
+                regexpPassword: /[A-Za-z_0-9]{6,}/,
+
                 eMail: "",
-                password: ""
+                password: "",
+
+                messageInvalidEmail: "",
+                messageInvalidPassword: "",
+
+                showMessageEmail: "",
+                showMessagePassword: "",
             }
+        },
+
+        computed: {
+            checkEmail() {
+                if (!this.regexpEmail.test(this.eMail)) {
+                    console.log(this.regexpEmail.test(this.eMail));
+                    return 'Електронна адреса не відповідає вимогам';
+                }
+                 return "";
+            },
+
+            checkPassword() {
+                if (!this.regexpPassword.test(this.password)) {
+                    console.log(this.regexpPassword.test(this.password));
+                    return '  Пароль не відповідає вимогам';
+                }
+                return "";
+            },
         },
     }
 </script>
@@ -51,6 +80,10 @@
         button {
             @include button;
         }
+    }
+
+    @media (min-width: 768px) and (max-width: 991.9px) {
+
     }
 
 </style>

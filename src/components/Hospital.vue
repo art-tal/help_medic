@@ -94,9 +94,6 @@
                         <div class="col-8">{{hospital.tel}}</div>
                     </div>
 
-
-
-
                     <div class="field row">
                         <div class="col-4">
                             <i class="fas fa-book-open"></i>
@@ -113,47 +110,59 @@
                 <h2 class="text-center"  v-if="needs.length > 0">Що нам необхідно</h2>
                 <h2 class="text-center"  v-else>Немає даних</h2>
 
-<!--                <div class="row add p-0">-->
-<!--                    <div class="col-lg-3 col-md-5 pl-0">-->
-<!--                        <button class="btn btn-dark" @click="showFormNeed()">Додати необхідне</button>-->
-<!--                    </div>-->
-<!--                </div>-->
+                <div class="row sort p-0">
+                    <div class="col-lg-3 col-md-11 col-10 pl-0">
+                        <label for="sort" class="font-weight-bold">Сортувати</label>
+                        <select name="sort" id="sort" v-model="sortCallBack" @change="sortCallBack()">
+                            <option :value="sortName">За назвою</option>
+                            <option :value="sortCountry">За країною</option>
+                            <option :value="sortVendor">За постачальником</option>
+                            <option :value="sortType">За типом</option>
+                        </select>
+
+
+                    </div>
+
+                    <div class="col-sm-1 col-2">
+                        <button class="btn btn-dark" @click="sortReverseNeeds(sortCallBack)" title="Звернути сортування"><i class="fas fa-history"></i></button>
+                    </div>
+                </div>
 
 
                 <div class="row header font-weight-bold" v-if="needs.length > 0">
                     <div class="col-2 text-center">
                         <span>Назва</span>
-                        <p>
-                            <i class="fas fa-sort-up" @click="sortName()"></i>
-                            <i class="fas fa-sort-down" @click="sortReverseNeeds(sortName)"></i>
-                        </p>
+<!--                        <p>-->
+<!--                            <i class="fas fa-sort-up" @click="sortName()"></i>-->
+<!--                            <i class="fas fa-sort-down" @click="sortReverseNeeds(sortName)"></i>-->
+<!--                        </p>-->
                     </div>
                     <div class="col-1 text-center">
                         <span>Країна походження</span>
-                        <p>
-                            <i class="fas fa-sort-up" @click="sortCountry()"></i>
-                            <i class="fas fa-sort-down" @click="sortReverseNeeds(sortCountry)"></i>
-                        </p>
+<!--                        <p>-->
+<!--                            <i class="fas fa-sort-up" @click="sortCountry()"></i>-->
+<!--                            <i class="fas fa-sort-down" @click="sortReverseNeeds(sortCountry)"></i>-->
+<!--                        </p>-->
                     </div>
                     <div class="col-1 text-center">
                         <span>Постачальник</span>
-                        <p>
-                            <i class="fas fa-sort-up" @click="sortVendor()"></i>
-                            <i class="fas fa-sort-down" @click="sortReverseNeeds(sortVendor)"></i>
-                        </p>
+<!--                        <p>-->
+<!--                            <i class="fas fa-sort-up" @click="sortVendor()"></i>-->
+<!--                            <i class="fas fa-sort-down" @click="sortReverseNeeds(sortVendor)"></i>-->
+<!--                        </p>-->
                     </div>
                     <div class="col-1 text-center">
                         <span>Тип</span>
-                        <p>
-                            <i class="fas fa-sort-up" @click="sortType()"></i>
-                            <i class="fas fa-sort-down" @click="sortReverseNeeds(sortType)"></i>
-                        </p>
+<!--                        <p>-->
+<!--                            <i class="fas fa-sort-up" @click="sortType()"></i>-->
+<!--                            <i class="fas fa-sort-down" @click="sortReverseNeeds(sortType)"></i>-->
+<!--                        </p>-->
                     </div>
-                    <div class="col-3 text-center">Опис</div>
-                    <div class="col-1 text-center">Перша необхідність</div>
-                    <div class="col-1 text-center">Наявнівсть, шт.</div>
-                    <div class="col-1 text-center">Необхідно, шт.</div>
-                    <div class="col-1 text-center">Орієнтовна вартість, грн.</div>
+                    <div class="col-3 text-center"><span>Опис</span></div>
+                    <div class="col-1 text-center"><span>Перша необхідність</span></div>
+                    <div class="col-1 text-center"><span>Наявнівсть, шт.</span></div>
+                    <div class="col-1 text-center"><span>Необхідно, шт.</span></div>
+                    <div class="col-1 text-center"><span>Орієнтовна вартість, грн.</span></div>
 <!--                    <div class="col-1 text-center"></div>-->
                 </div>
 
@@ -195,8 +204,11 @@
 
                     </div>
 
-                    <div class="sub_header col-5 font-weight-bold">Орієнтовна вартість, грн.</div>
-                    <div class="col-lg-1 col-7 text-center">{{need.cost_hrn}}</div>
+                    <div class="sub_header col-5 font-weight-bold">Орієнтовна вартість, грн. ($)</div>
+                    <div class="col-lg-1 col-7 text-center">
+                        {{need.cost_hrn | formattedPrice}} &#8372;
+                        <strong>(${{need.cost_doll | formattedPrice}})</strong>
+                    </div>
 
 
 <!--                    <div class="col-1 text-center">-->
@@ -214,6 +226,7 @@
 
 <script>
     import axios from "axios"
+    import formattedPrice from "@/filters/price_format";
     // import {eventEmitter} from "@/main";
 
     export default {
@@ -233,10 +246,15 @@
 
                 types: [],
 
+                sortCallBack: null,
                 filters: [],
                 filterType: "",//"Не обрано",
                 filterFirstNeed: 0,
             }
+        },
+
+        filters:{
+            formattedPrice,
         },
 
         computed: {
@@ -251,6 +269,12 @@
         },
 
     },
+
+        watch: {
+            sortCallBack() {
+                return this.sortCallBack;
+            },
+        },
 
         created() {
             this.hospitalId = this.$route.params.id;
@@ -600,10 +624,43 @@
                 h2 {
                     margin-bottom: 30px;
                 }
+
+                .row.sort {
+                    margin-bottom: 15px;
+                    align-items: flex-end;
+                    justify-content: flex-end;
+                    div {
+                        border: none;
+                        label {
+                            margin-bottom: 5px;
+                        }
+                        select {
+                            @include select;
+                            margin: 0;
+                        }
+                        button {
+                            @include button;
+                            height: 47px;
+                            width: 47px;
+                        }
+                    }
+
+                }
+
+
+
                 .row.header {
                     font-size: 1vw;
+                    align-content: center;
                     div {
                         position: relative;
+                        /*padding-left: 15px;*/
+                        span {
+                            display: inline-block;
+                            width: 100%;
+                            height: 100%;
+                            vertical-align: middle;
+                        }
                         p {
                             display: inline-block;
                             position: absolute;
@@ -803,24 +860,20 @@
                     .header {
                         display: none;
                     }
-
-                    .row.add{
+                    .row.sort {
                         border: none;
-                        background-color: #fff;
                         div {
-                            padding: 0;
-                            button.btn.btn-dark {
-                                @include button;
-                                margin-bottom: 20px;
+                            label {
+                                text-align: left;
                             }
                         }
                     }
-
 
                     .row {
                         border: 2px solid #aaaaaa;
                         border-radius: 15px;
                         padding: 15px;
+                        margin-bottom: 10px;
                         div {
                             font-size: 1.2rem;
                             border: none;
@@ -830,7 +883,7 @@
                             &:first-child {
                                 padding-left: 5px;
                             }
-                            &:nth-child(15), &:nth-child(16) {
+                            &:nth-child(17), &:nth-child(18) {
                                 border-bottom: none;
                             }
                             &:last-child {
@@ -922,11 +975,22 @@
                     .header {
                         display: none;
                     }
+
+                    .row.sort {
+                        border: none;
+                        div {
+                            label {
+                                text-align: left;
+                            }
+                        }
+                    }
+
                     .row {
                         font-size: 1.2rem;
                         border: 2px solid #aaaaaa;
                         border-radius: 15px;
                         padding: 15px;
+                        margin-bottom: 10px;
                         div {
                             border: none;
                             border-bottom: 1px solid #aaaaaa;
@@ -935,7 +999,7 @@
                             &:first-child {
                                 padding-left: 5px;
                             }
-                            &:nth-child(15), &:nth-child(16) {
+                            &:nth-child(17), &:nth-child(18) {
                                 border-bottom: none;
                             }
                             &:last-child {
@@ -1032,6 +1096,15 @@
                         display: none;
                     }
 
+                    .row.sort {
+                        border: none;
+                        div {
+                            label {
+                                text-align: left;
+                            }
+                        }
+                    }
+
                     .row.add{
                         border: none;
                         background-color: #fff;
@@ -1047,6 +1120,7 @@
                         border-radius: 15px;
                         padding: 15px;
                         font-size: 1.2rem;
+                        margin-bottom: 10px;
                         div {
                             border: none;
                             border-bottom: 1px solid #aaaaaa;
@@ -1055,7 +1129,7 @@
                             &:first-child {
                                 padding-left: 5px;
                             }
-                            &:nth-child(15), &:nth-child(16) {
+                            &:nth-child(17), &:nth-child(18) {
                                 border-bottom: none;
                             }
                             &:last-child {
