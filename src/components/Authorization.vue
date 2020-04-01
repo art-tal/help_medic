@@ -15,15 +15,16 @@
                 </div>
 
                 <div class="col-6 nav-item">
-                    <router-link
-                            tag="h3"
-                            class="text-center  nav-link"
-                            exact
-                            active-class="active"
-                            to="/authorization/registration"
-                    >
-                        Реєстрація
-                    </router-link>
+                    <h3 class="text-center nav-link" :title="msgRegistration">Реєстрація</h3>
+<!--                    <router-link-->
+<!--                            tag="h3"-->
+<!--                            class="text-center  nav-link registration"-->
+<!--                            exact-->
+<!--                            active-class="active"-->
+<!--                            to="/authorization/registration"-->
+<!--                    >-->
+<!--                        Реєстрація-->
+<!--                    </router-link>-->
                 </div>
             </div>
 
@@ -38,6 +39,12 @@
 <script>
     export default {
         name: "Authorization",
+
+        data() {
+            return {
+                msgRegistration:"Для реєстрації зверніться до адміністратора."
+            }
+        },
 
         created() {
             this.$router.push({name: "login"});
@@ -63,7 +70,7 @@
         background-size: cover;
         padding: 100px;
         .block {
-            width: 700px;
+            width: 550px;
             margin: auto;
             .row.nav.nav-tabs {
                 border: none;
@@ -85,6 +92,9 @@
                             border-bottom: none;
                             background-color: rgba(255,255,255,0.9);
                         }
+                        /*&.registration {*/
+                        /*    display: none;*/
+                        /*}*/
                     }
                 }
             }
@@ -104,7 +114,7 @@
             padding: 60px 0;
             .block {
                 min-width: 470px;
-                width: 80%;
+                width: 55%;
 
             }
 

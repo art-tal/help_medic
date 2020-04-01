@@ -1,52 +1,90 @@
 <template>
-    <form name="login">
+    <form name="login" @submit.prevent="onSubmit()">
         <label for="mail">E-mail</label>
-        <span>{{checkEmail}}</span>
-        <input id="mail" type="email" v-model="eMail">
+<!--        <span>{{checkEmail}}</span>-->
+        <input id="mail"
+               type="email"
+               class="form-control"
+               :class="{'is-invalid' : $v.eMail.$error}"
+               @blur="$v.eMail.$touch()"
+               v-model="eMail">
+        <div class="invalid-feedback" v-if="!$v.eMail.required">
+            Обов'язково для заповнення.
+        </div>
+        <div class="invalid-feedback" v-if="!$v.eMail.email">
+            Не відповідає вимогам email адреси.
+        </div>
 
         <label for="password">Пароль</label>
-        <span>{{checkPassword}}</span>
-        <input id="password" type="password" v-model="password">
+<!--        <span>{{checkPassword}}</span>-->
+        <input id="password"
+               type="password"
+               class="form-control"
+               :class="{'is-invalid' : $v.password.$error}"
+                @blur="$v.password.$touch()"
+               v-model="password">
+        <div class="invalid-feedback" v-if="!$v.password.$minLegth">
+            Не відповідає вимогам для поля паролю.
+        </div>
 
-        <button class="btn btn-dark">Відправити</button>
+        <button class="btn btn-dark" type="submit" :disabled="$v.$invalid">Відправити</button>
     </form>
 </template>
 
 <script>
+    import { required, email, minLength } from 'vuelidate/lib/validators'
+
     export default {
         name: "LogIn",
 
         data() {
             return {
-                regexpEmail: /.+@.+\..+/i,
-                regexpPassword: /[A-Za-z_0-9]{6,}/,
+                // regexpEmail: /.+@.+\..+/i,
+                // regexpPassword: /[A-Za-z_0-9]{6,}/,
 
                 eMail: "",
                 password: "",
 
-                messageInvalidEmail: "",
-                messageInvalidPassword: "",
-
-                showMessageEmail: "",
-                showMessagePassword: "",
+                // messageInvalidEmail: "",
+                // messageInvalidPassword: "",
+                //
+                // showMessageEmail: "",
+                // showMessagePassword: "",
             }
         },
 
-        computed: {
-            checkEmail() {
-                if (!this.regexpEmail.test(this.eMail)) {
-                    console.log(this.regexpEmail.test(this.eMail));
-                    return 'Електронна адреса не відповідає вимогам';
-                }
-                 return "";
+        validations: {
+            eMail: {
+                required,
+                email
             },
+            password: {
+                minLength: minLength(6),
+                required
+            },
+        },
 
-            checkPassword() {
-                if (!this.regexpPassword.test(this.password)) {
-                    console.log(this.regexpPassword.test(this.password));
-                    return '  Пароль не відповідає вимогам';
-                }
-                return "";
+        computed: {
+            // checkEmail() {
+            //     if (!this.regexpEmail.test(this.eMail)) {
+            //         console.log(this.regexpEmail.test(this.eMail));
+            //         return 'Електронна адреса не відповідає вимогам';
+            //     }
+            //      return "";
+            // },
+
+            // checkPassword() {
+            //     if (!this.regexpPassword.test(this.password)) {
+            //         console.log(this.regexpPassword.test(this.password));
+            //         return '  Пароль не відповідає вимогам';
+            //     }
+            //     return "";
+            // },
+        },
+
+        methods: {
+            onSubmit() {
+                console.log(this.eMail, this.password);
             },
         },
     }

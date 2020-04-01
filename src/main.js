@@ -1,17 +1,21 @@
 import Vue from 'vue'
-import App from './App.vue'
+import Vuelidate from "vuelidate"
 import VueRouter from "vue-router"
 import router from "./Route/route"
 import store from "./store/store"
+import App from './App.vue'
 
 
-Vue.config.productionTip = false;
+Vue.use(Vuelidate);
 Vue.use(VueRouter);
+Vue.config.productionTip = false;
 
 export const eventEmitter = new Vue();
 
 new Vue({
-  render: h => h(App),
   router,
   store,
+  // vuelidate,
+  render: h => h(App),
+
 }).$mount('#app');
