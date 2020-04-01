@@ -32,7 +32,11 @@
 </template>
 
 <script>
+    // import axios from "axios"
+    import jQuery from "jquery"
     import { required, email, minLength } from 'vuelidate/lib/validators'
+
+    const $ = jQuery;
 
     export default {
         name: "LogIn",
@@ -44,6 +48,8 @@
 
                 eMail: "",
                 password: "",
+
+                allowEdits: false,
 
                 // messageInvalidEmail: "",
                 // messageInvalidPassword: "",
@@ -85,6 +91,36 @@
         methods: {
             onSubmit() {
                 console.log(this.eMail, this.password);
+                // axios.post(
+                //     `https://helpmedic.atlant-mega.com/ajax/auth`,
+                //     {
+                //         email: this.eMail,
+                //         password: this.password
+                //     }
+                // )
+                // .then( (response) => {
+                //     this.allowEdits = response.data;
+                //     console.log( this.allowEdits );
+                // } )
+                // .catch( (error) => {
+                //     console.log("Ошибка авторизации");
+                //     console.log(error);
+                // } )
+
+                $.post(
+                    `https://helpmedic.atlant-mega.com/ajax/auth`,
+                    {
+                            "email": this.eMail,
+                            "password": this.password
+                        },
+                    (data) => {
+                        console.log(data);
+                    }
+                )
+
+
+
+
             },
         },
     }
