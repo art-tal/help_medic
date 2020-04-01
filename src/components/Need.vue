@@ -83,9 +83,13 @@
 
                 <div class="col-lg-3 col-12 row sort p-0">
 
-                    <div class="col-lg-9 col-md-10 col-10 pl-0">
+                    <form name="sort" class="col-lg-9 col-md-10 col-10 pl-0">
                         <label for="sort" class="font-weight-bold">Сортувати</label>
-                        <select name="sort" id="sort" v-model="sortCallBack" @change="sortCallBack()">
+                        <select name="sortOf"
+                                id="sort"
+                                v-model="sortCallBack"
+                                @change="sortCallBack()">
+                            <option selected="selected" disabled="disabled">Не сортовано</option>
                             <option :value="sortHospital">За лікарнями</option>
                             <option :value="sortName">За назвою</option>
                             <option :value="sortCountry">За країною виробництва</option>
@@ -94,7 +98,7 @@
                         </select>
 
 
-                    </div>
+                    </form>
 
                     <div class="col-2 text-center">
                         <button class="btn btn-dark" @click="sortReverseNeeds(sortCallBack)" title="Звернути сортування"><i class="fas fa-history"></i></button>
@@ -102,10 +106,6 @@
                 </div>
 
             </div>
-
-
-
-
 
 
 
@@ -182,9 +182,12 @@
                 hospitals: [],
 
                 // filters: [],
-                filterType: "",
-                filterCity: "",
-                filterHospital: "",
+                filterType: "Не обрано",
+                // filterType: "",
+                filterCity: "Не обрано",
+                // filterCity: "",
+                filterHospital: "Не обрано",
+                // filterHospital: "",
                 filterFirstNeed: 0,
 
             }
@@ -199,11 +202,14 @@
 
                 return this.needs
                     .filter( need => {
-                        return this.filterCity  === "" || need.city_name.indexOf(this.filterCity) > -1  })
+                        return this.filterCity  === "Не обрано" || need.city_name.indexOf(this.filterCity) > -1  })
+                        // return this.filterCity  === "" || need.city_name.indexOf(this.filterCity) > -1  })
                     .filter( need => {
-                        return this.filterHospital  === "" || need.hospital_name.indexOf(this.filterHospital) > -1  })
+                        return this.filterHospital  === "Не обрано" || need.hospital_name.indexOf(this.filterHospital) > -1  })
+                        // return this.filterHospital  === "" || need.hospital_name.indexOf(this.filterHospital) > -1  })
                     .filter( need => {
-                        return this.filterType  === "" || need.type_drug_name.indexOf(this.filterType) > -1  })
+                        return this.filterType  === "Не обрано" || need.type_drug_name.indexOf(this.filterType) > -1  })
+                        // return this.filterType  === "" || need.type_drug_name.indexOf(this.filterType) > -1  })
                     .filter( need => {
                         return +this.filterFirstNeed === 0 || need.first_need > 0
                     } )
@@ -284,9 +290,12 @@
             },
 
             reset() {
-                this.filterCity = "";
-                this.filterHospital = "";
-                this.filterType = "";
+                this.filterCity = "Не обрано";
+                // this.filterCity = "";
+                this.filterHospital = "Не обрано";
+                // this.filterHospital = "";
+                this.filterType = "Не обрано";
+                // this.filterType = "";
                 this.filterFirstNeed = 0;
             },
 
@@ -353,10 +362,6 @@
             //             console.log(error);
             //         });
             // },
-
-
-
-
 
             setHospital(hospital) {
                 this.$store.state.hospital = hospital;
@@ -482,7 +487,7 @@
                     margin-bottom: 30px;
                     align-items: flex-end;
                     justify-content: space-between;
-                    div {
+                    form {
                         border: none;
                         label {
                             margin-bottom: 5px;
@@ -492,13 +497,15 @@
                             @include select;
                             margin: 0 10px;
                         }
+                    }
+                    div {
+                        border: none;
                         button {
                             @include button;
                             height: 47px;
                             width: 47px;
                         }
                     }
-
                 }
             }
 
@@ -600,7 +607,7 @@
                     }
 
                     .row.sort {
-                        div {
+                        form {
                             label {
                                 margin-left: 0;
                             }
