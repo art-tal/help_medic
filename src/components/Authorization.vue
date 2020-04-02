@@ -37,6 +37,8 @@
 </template>
 
 <script>
+    import {eventEmitter} from "@/main";
+
     export default {
         name: "Authorization",
 
@@ -48,6 +50,13 @@
 
         created() {
             this.$router.push({name: "login"});
+            eventEmitter.$on("closeLogin", this.loggedIn);
+        },
+
+        methods: {
+            loggedIn() {
+                this.$router.push('/home');
+            },
         },
     }
 </script>

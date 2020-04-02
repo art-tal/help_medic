@@ -69,7 +69,7 @@
                             active-class="active"
                             to="/authorization"
                     >
-                        <a class="nav-link">Вхід</a>
+                        <a class="nav-link">{{user}}</a>
                     </router-link>
                 </ul>
             </div>
@@ -91,6 +91,12 @@
                 email: 'talanov.reserv@gmail.com',
                 phone: "+38 (093) 35-40-206",
             }
+        },
+
+        computed: {
+            user() {
+                return this.$store.getters.getUser;
+            },
         },
     }
 </script>

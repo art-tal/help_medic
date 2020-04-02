@@ -128,8 +128,8 @@
                     </div>
                 </div>
 
-
-                <div class="row header font-weight-bold" v-if="needs.length > 0">
+<!--                v-if="needs.length > 0"-->
+                <div class="row header font-weight-bold">
                     <div class="col-2 text-center">
                         <span>Назва</span>
 <!--                        <p>-->
@@ -162,7 +162,7 @@
                     <div class="col-1 text-center"><span>Перша необхідність</span></div>
                     <div class="col-1 text-center"><span>Наявнівсть, шт.</span></div>
                     <div class="col-1 text-center"><span>Необхідно, шт.</span></div>
-                    <div class="col-1 text-center"><span>Орієнтовна вартість, грн.</span></div>
+                    <div class="col-1 text-center"><span>Орієнтовна вартість, грн. ($)</span></div>
 <!--                    <div class="col-1 text-center"></div>-->
                 </div>
 
@@ -206,7 +206,7 @@
 
                     <div class="sub_header col-5 font-weight-bold">Орієнтовна вартість, грн. ($)</div>
                     <div class="col-lg-1 col-7 text-center">
-                        {{need.cost_hrn | formattedPrice}} &#8372;
+                        {{need.cost_hrn | formattedPrice}} &#8372;<br/>
                         <strong>(${{need.cost_doll | formattedPrice}})</strong>
                     </div>
 
@@ -221,19 +221,37 @@
 
 
         </div>
+
+        <div class="show_login" v-if="showLogIn">
+            <div class="login">
+                <i class="far fa-times-circle text-right" @click="closeLogIn"></i>
+                <log-in></log-in>
+            </div>
+        </div>
+
+
+        <transition name="fade">
+            <div class="msg text-center" :class="cls" v-if="showInfoMsg">
+                <span>{{msgInfo}}</span>
+            </div>
+        </transition>
+
+
     </section>
 </template>
 
 <script>
     import axios from "axios"
+    import LogIn from "@/components/LogIn";
     import formattedPrice from "@/filters/price_format";
+    import {eventEmitter} from "@/main";
     // import {eventEmitter} from "@/main";
 
     export default {
         name: "Hospital",
 
         components: {
-
+            LogIn,
         },
 
         data() {
@@ -243,6 +261,11 @@
                 hospitalId: "",
                 hospital: {},
                 needs: [],
+
+                showLogIn: false,
+                msgInfo: "",
+                cls: "",
+                showInfoMsg: false,
 
                 types: [],
 
@@ -268,7 +291,10 @@
                     } )
         },
 
-    },
+            allowEdits() {
+                return this.$store.getters.getAllowEdits;
+            },
+        },
 
         watch: {
             sortCallBack() {
@@ -281,6 +307,7 @@
             this.gettingHospital();
             this.getNeeds();
             this.findCity();
+            eventEmitter.$on("closeLogin", this.closeLogIn);
         },
 
         mounted() {
@@ -342,9 +369,29 @@
             },
 
             startEdit(need) {
-                need.edit = false;
-                console.log(need);
+                if (this.allowEdits) {
+                    console.log(need);
+                    console.log(this.hospitalId);
+                    if (this.allowEdits === this.hospitalId) {
+                        need.edit = false;
+                        this.showInfo('Вам дозволено коррегувати данні таблиці', "info_msg" );
+                    } else {
+                        this.showInfo('Вам не дозволено коррегувати цю таблицю, так як Ваш аккаунт відповідає іншій лікарні', "error_msg" );
+                    }
+                } else {
+                    this.showLogIn = true;
+                }
+
             },
+
+            showInfo( msg, cls ) {
+                this.msgInfo = msg;
+                this.cls = cls;
+                this.showInfoMsg = true;
+                setTimeout( () => {this.showInfoMsg = false}, 4000 );
+            },
+
+
 
             endEdit(need) {
                 axios({
@@ -359,12 +406,18 @@
                         .then( (response) => {
                             console.log("Данные переданы успешно");
                             console.log(response);
+                            this.showInfo('Данні збережені у базі', "info_msg" );
                         } )
                         .catch( (error) => {
                             console.log("Ошибка передачи данных");
+                            this.showInfo('Сталася помилка. Спробуйте ще.', "error_msg" );
                             console.log(error);
                         } );
                 need.edit = true;
+            },
+
+            closeLogIn() {
+                this.showLogIn = false;
             },
 
             getType() {
@@ -713,6 +766,62 @@
                 }
             }
         }
+
+        .show_login {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background-color: rgba(0,0,0,0.5);
+            .login {
+                width: 550px;
+                min-width: 470px;
+                border-top: 2px solid #00AEEF;
+                margin: 150px auto 0;
+                position: relative;
+                i {
+                    position: absolute;
+                    top: 15px;
+                    right: 15px;
+                    font-size: 1.3rem;
+                    color: #000;
+                    cursor: pointer;
+                }
+            }
+        }
+
+        .msg {
+            background-color: #fff;
+            font-size: 1.1rem;
+            width: 550px;
+            border-radius: 10px;
+            position: fixed;
+            z-index: 900;
+            top: 100px;
+            right: 30px;
+            color: #000;
+            padding: 30px;
+            &.info_msg {
+                border: 2px solid forestgreen;
+                background-color: #D5FAD5;
+                box-shadow: 0 0 8px 4px #D5FAD5;
+            }
+            &.error_msg {
+                border: 2px solid #dc3545;
+                background-color: #FAC2C2;
+                box-shadow: 0 0 8px 4px #FAC2C2;
+            }
+        }
+
+    }
+
+    .fade-enter-active, .fade-leave-active {
+        transition: opacity .5s;
+    }
+    .fade-enter, .fade-leave-to /* .fade-leave-active до версии 2.1.8 */ {
+        opacity: 0;
+
     }
 
     @media (min-width: 992px) and (max-width: 1199.9px) {
