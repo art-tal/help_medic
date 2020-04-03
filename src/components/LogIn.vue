@@ -46,8 +46,14 @@
     import { required, email, minLength } from 'vuelidate/lib/validators'
     import {eventEmitter} from "@/main";
     // import jQuery from "jquery"
-    //
+    // //
     // const $ = jQuery;
+
+    // $.ajaxSetup({
+    //     headers: {
+    //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    //     }
+    // });
 
 
 
@@ -82,45 +88,28 @@
         },
 
         computed: {
-            // checkEmail() {
-            //     if (!this.regexpEmail.test(this.eMail)) {
-            //         console.log(this.regexpEmail.test(this.eMail));
-            //         return 'Електронна адреса не відповідає вимогам';
-            //     }
-            //      return "";
-            // },
-
-            // checkPassword() {
-            //     if (!this.regexpPassword.test(this.password)) {
-            //         console.log(this.regexpPassword.test(this.password));
-            //         return '  Пароль не відповідає вимогам';
-            //     }
-            //     return "";
-            // },
         },
 
         methods: {
             onSubmit() {
-                console.log(this.eMail, this.password);
-                axios.get(
-                   // `https://helpmedic.atlant-mega.com/ajax/auth?email=${this.eMail}&password=${this.password}`,
-                   `https://helpmedic.atlant-mega.com/ajax/auth`,
-                    {params:  {
-                        email: this.eMail,
-                        password: this.password
-                    }},
-            )
+                // axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
+                axios.post(
+                    `https://helpmedic.atlant-mega.com/ajax/auth`,
+                    {
+                            email: this.eMail,
+                            password: this.password,
+                        },
+                )
                 .then( (response) => {
                     this.allowEdits = response.data;
                     this.$store.state.allowEdits = response.data;
-                    this.$store.state.user = this.eMail;
-                   // $.cookie("allowEdits", this.allowEdits);
+
                     document.cookie = `allowEdits=${this.allowEdits}`;
-                    // $.cookie("user", this.eMail);
-                    document.cookie = `user=${this.eMail}`;
                     console.log( this.allowEdits );
                     if(this.allowEdits) {
                         eventEmitter.$emit("closeLogin");
+                        document.cookie = `user=${this.eMail}`;
+                        this.$store.state.user = this.eMail;
                     } else {
                         this.showErrorMsg = true;
                         setTimeout( () => {this.showErrorMsg = false},5000);
@@ -136,7 +125,7 @@
 
 
 
-                // $.post(
+                // $.get(
                 //     `https://helpmedic.atlant-mega.com/ajax/auth`,
                 //     {
                 //             "email": this.eMail,
@@ -146,8 +135,6 @@
                 //         console.log(data);
                 //     }
                 // )
-
-
 
 
             },

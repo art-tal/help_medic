@@ -20,18 +20,13 @@
 
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-// import Promo from "@/components/Promo";
-// import Mykolaiv from "@/components/Mykolaiv";
-// import Home from "@/components/Home";
+
 
 export default {
   name: 'App',
 
   components: {
     appHeader: Header,
-    // Home,
-    // Promo,
-    // Mykolaiv,
     aapFooter: Footer,
 
   },

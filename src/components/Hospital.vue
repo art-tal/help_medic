@@ -132,24 +132,12 @@
                 <div class="row header font-weight-bold">
                     <div class="col-2 text-center">
                         <span>Назва</span>
-<!--                        <p>-->
-<!--                            <i class="fas fa-sort-up" @click="sortName()"></i>-->
-<!--                            <i class="fas fa-sort-down" @click="sortReverseNeeds(sortName)"></i>-->
-<!--                        </p>-->
                     </div>
                     <div class="col-1 text-center">
                         <span>Країна походження</span>
-<!--                        <p>-->
-<!--                            <i class="fas fa-sort-up" @click="sortCountry()"></i>-->
-<!--                            <i class="fas fa-sort-down" @click="sortReverseNeeds(sortCountry)"></i>-->
-<!--                        </p>-->
                     </div>
                     <div class="col-1 text-center">
                         <span>Постачальник</span>
-<!--                        <p>-->
-<!--                            <i class="fas fa-sort-up" @click="sortVendor()"></i>-->
-<!--                            <i class="fas fa-sort-down" @click="sortReverseNeeds(sortVendor)"></i>-->
-<!--                        </p>-->
                     </div>
                     <div class="col-1 text-center">
                         <span>Тип</span>
@@ -273,6 +261,23 @@
                 filters: [],
                 filterType: "",//"Не обрано",
                 filterFirstNeed: 0,
+
+                // sName: {
+                //     title: "За назвою",
+                //     cb: this.sortName
+                // },
+                // sCountry: {
+                //     title: "За країною",
+                //     cb: this.sortCountry
+                // },
+                // sVendor: {
+                //     title: "За постачальником",
+                //     cb: this.sortVendor
+                // },
+                // sType: {
+                //     title: "За типом",
+                //     cb: this.sortType
+                // },
             }
         },
 
@@ -319,23 +324,6 @@
         methods: {
 
             gettingHospital() {
-                // axios.get(
-                //     "https://helpmedic.atlant-mega.com/ajax/hospitals",// +  this.$route.params.id,
-                //     {params: { hospital_id: this.hospitalId}}
-                // )
-                //     .then( (response) => {
-                //         this.hospital = response.data;
-                //         console.log("hospital");
-                //         console.log(response.data);
-                //         // this.findCity();
-                //     } )
-                //     .catch( (error) => {
-                //         console.log("Ошибка нет Больницы");
-                //         console.log(error);
-                //     } );
-
-
-
                 axios.get(
                     "https://helpmedic.atlant-mega.com/ajax/hospitals/all"
                 )
@@ -348,8 +336,6 @@
                         console.log("Ошибка нет Больницы");
                         console.log(error);
                     } );
-
-
             },
 
             getNeeds() {
@@ -390,8 +376,6 @@
                 this.showInfoMsg = true;
                 setTimeout( () => {this.showInfoMsg = false}, 4000 );
             },
-
-
 
             endEdit(need) {
                 axios({
@@ -437,6 +421,8 @@
             },
 
             sortName() {
+                let title = "За назвою";
+                console.log(title);
                 return this.needs = this.needs.sort((prev, next) => {
                     if ( prev.medication_name < next.medication_name ) return -1;
                     if ( prev.medication_name < next.medication_name ) return 1;
@@ -444,6 +430,8 @@
             },
 
             sortCountry() {
+                let title = "За країною";
+                console.log(title);
                 return this.needs = this.needs.sort((prev, next) => {
                     if ( prev.vendor_country < next.vendor_country ) return -1;
                     if ( prev.vendor_country < next.vendor_country ) return 1;
@@ -451,6 +439,8 @@
             },
 
             sortVendor() {
+                let title = "За постачальником";
+                console.log(title);
                 return this.needs = this.needs.sort((prev, next) => {
                     if (prev.vendor_name < next.vendor_name) return -1;
                     if (prev.vendor_name < next.vendor_name) return 1;
@@ -458,14 +448,13 @@
             },
 
             sortType() {
+                let title = "За типом";
+                console.log(title);
                 return this.needs = this.needs.sort((prev, next) => {
                     if ( prev.type_drug_name < next.type_drug_name ) return -1;
                     if ( prev.type_drug_name < next.type_drug_name ) return 1;
                 });
             },
-
-
-
 
             reset() {
                 // this.filters = [];
@@ -473,28 +462,7 @@
                 this.filterFirstNeed = 0;
             },
 
-
             findCity() {
-                // axios.get(
-                //     'https://helpmedic.atlant-mega.com/ajax/cities',
-                // {params: {city_id: this.hospital.city_id}}
-                // )
-                //     .then( (response) => {
-                //         let temp = response.data;
-                //         this.city = temp[0];
-                //         console.log("city");
-                //         console.log(this.city);
-                //         // this.findArea();
-                //     } )
-                //     .catch( (error) => {
-                //         console.log('Ошибка, нет города');
-                //         console.log(error);
-                //     } );
-
-                // this.findArea();
-
-
-
                 axios.get(
                     'https://helpmedic.atlant-mega.com/ajax/cities/all'
                 )
@@ -506,39 +474,9 @@
                         console.log('Ошибка, нет города');
                         console.log(error);
                     } );
-
-
             },
 
-            // findArea() {
-            //     axios.get(
-            //         // "https://helpmedic.atlant-mega.com/ajax/areas?area_id=" + this.city.area_id,
-            //         "https://helpmedic.atlant-mega.com/ajax/areas",
-            //         {params: {area_id: this.city.area_id}}
-            //     )
-            //         .then( (response) => {
-            //             this.area = response.data;
-            //             console.log("area");
-            //             console.log(this.area);
-            //         } )
-            //         .catch( (error) => {
-            //             console.log('Ошибка, нет района');
-            //             console.log(error);
-            //         } )
 
-
-                // axios.get(
-                //     "https://helpmedic.atlant-mega.com/ajax/areas"
-                // )
-                //     .then( (response) => {
-                //         let temp = response.data;
-                //         this.area = temp.find( ar => ar.area_id === this.city.area_id );
-                //     } )
-                //     .catch( (error) => {
-                //         console.log('Ошибка, нет района');
-                //         console.log(error);
-                //     } )
-            // },
 
         },
     }
