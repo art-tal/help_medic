@@ -14,7 +14,7 @@
                 <p>help@-------.in.ua</p>
             </div>
         </div>
-        <div class="row text-center">Проект «-----» · 2020</div>
+        <div class="row last text-center"><span>Проект «HelpMedic» · 2020</span></div>
     </footer>
 </template>
 
@@ -33,6 +33,7 @@
     }
 
     footer.container-fluid {
+
         background-color: #373737;
         color: #f0f0f0;
         padding: 0px;
@@ -49,8 +50,9 @@
                 }
             }
         }
-        .row:last-child {
+        .row.last {
             text-align: center;
+            margin: 0 auto;
             padding: 5px;
             background-color: #232323;
             color: #ffffff;

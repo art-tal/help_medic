@@ -44,19 +44,11 @@
 <script>
     import axios from "axios"
     import { required, email, minLength } from 'vuelidate/lib/validators'
+    import mixinCookie from "@/mixins/mixinCookie";
     import {eventEmitter} from "@/main";
     // import jQuery from "jquery"
     // //
     // const $ = jQuery;
-
-    // $.ajaxSetup({
-    //     headers: {
-    //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    //     }
-    // });
-
-
-
 
     export default {
         name: "LogIn",
@@ -87,6 +79,10 @@
             },
         },
 
+        mixins: [
+            mixinCookie,
+        ],
+
         computed: {
         },
 
@@ -103,13 +99,12 @@
                 .then( (response) => {
                     this.allowEdits = response.data;
                     this.$store.state.allowEdits = response.data;
-
                     document.cookie = `allowEdits=${this.allowEdits}`;
                     console.log( this.allowEdits );
                     if(this.allowEdits) {
                         eventEmitter.$emit("closeLogin");
-                        document.cookie = `user=${this.eMail}`;
                         this.$store.state.user = this.eMail;
+                        document.cookie = `user=${this.eMail}`;
                     } else {
                         this.showErrorMsg = true;
                         setTimeout( () => {this.showErrorMsg = false},5000);
@@ -120,23 +115,6 @@
                     this.allowEdits = false;
                     console.log(error);
                 } );
-
-
-
-
-
-                // $.get(
-                //     `https://helpmedic.atlant-mega.com/ajax/auth`,
-                //     {
-                //             "email": this.eMail,
-                //             "password": this.password
-                //         },
-                //     (data) => {
-                //         console.log(data);
-                //     }
-                // )
-
-
             },
         },
     }

@@ -56,7 +56,7 @@
 <!--                    <li class="nav-item">-->
 <!--                        <a class="nav-link" href="#">Контакти</a>-->
 <!--                    </li>-->
-                    <div class="form-inline language_bar my-2 my-lg-0">
+                    <div class="navbar-text language_bar my-2 my-lg-0">
                         <!--                    <h5>EN</h5>-->
                         <!--                    <h5>RU</h5>-->
                         <h5>UA</h5>
@@ -64,12 +64,13 @@
 
                     <router-link
                             tag="li"
-                            class="nav-item"
+                            class="nav-item enter_exit navbar-text  text-right"
                             exact
                             active-class="active"
                             to="/authorization"
                     >
-                        <a class="nav-link">{{user}}</a>
+                        <span class="align-middle" v-if="user"><i class="far fa-user"></i>{{user}}</span>
+                        <a class="nav-link  align-middle"  @click.stop="exit()">{{getEnterExit}}</a>
                     </router-link>
                 </ul>
             </div>
@@ -83,6 +84,8 @@
 </template>
 
 <script>
+    import mixinCookie from "@/mixins/mixinCookie";
+
     export default {
         name: "Header",
 
@@ -93,10 +96,52 @@
             }
         },
 
+        mixins: [
+            mixinCookie,
+        ],
+
+        created() {
+            this.$store.state.user = this.getCookie('user');
+            this.$store.state.allowEdits = this.getCookie('allowEdits');
+        },
+
         computed: {
             user() {
                 return this.$store.getters.getUser;
             },
+
+            getEnterExit() {
+                if (this.$store.getters.getAllowEdits) {
+                    return "Вихід";
+                } else {
+                    return  "Вхід";
+                }
+
+
+
+                // if (this.$store.getters.getAllowEdits) {
+                //     return ' Вихід';
+                // } else if ( this.getCookie("allowEdits") ) {
+                //     return ' Вихід';
+                // } else {
+                //     return  "Вхід";
+                // }
+            }
+        },
+
+        methods: {
+            exit() {
+                if (this.$store.getters.getAllowEdits){
+                    this.$store.state.user = "";
+                    this.$store.state.allowEdits = false;
+                    console.log('del cookie');
+                    this.delCookie('user');
+                    this.delCookie('allowEdits');
+                    console.log(this.getCookie('user'));
+                    console.log(this.getCookie('allowEdits'));
+                }
+            },
+
         },
     }
 </script>
@@ -157,7 +202,7 @@
         }
 
         .language_bar {
-            flex-grow: 1;
+            flex-grow: 3;
             width: auto;
             @include flex;
             justify-content: flex-end;
@@ -175,6 +220,24 @@
                 }
             }
 
+        }
+
+        .enter_exit {
+            flex-grow: 1;
+            span {
+                display: inline-block;
+                width: auto;
+                padding-right: 10px;
+                i {
+                    display: inline-block;
+                    width: auto;
+                    margin-right: 5px;
+                }
+            }
+            a.nav-link {
+                display: inline-block;
+                width: auto;
+            }
         }
 }
 

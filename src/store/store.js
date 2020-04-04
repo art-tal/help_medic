@@ -4,11 +4,12 @@ import Vuex from "vuex"
 
 // const $ = jQuery;
 
-Vue.use(Vuex)
+Vue.use(Vuex);
+
 
 export default new Vuex.Store({
     state: {
-        user: "Вхід",
+        user: "",
 
         area: null,
         city: null,
@@ -23,9 +24,6 @@ export default new Vuex.Store({
             //     state.allowEdits = $.cookie("allowEdits");
             //     state.user = $.cookie('user');
             // }
-
-
-
             return state.user;
         },
 

@@ -7,6 +7,7 @@ import axios from "axios"
 import router from "./Route/route"
 import store from "./store/store"
 import App from './App.vue'
+
 // axios.defaults.withCredentials = true;
 
 Vue.use(jQuery);
@@ -14,7 +15,7 @@ Vue.use(Vuelidate);
 Vue.use(VueRouter);
 Vue.use(axios)
 Vue.config.productionTip = false;
-// Vue.use(Cors);
+// Vue.use();
 
 window.axios = require('axios');
 

@@ -113,11 +113,18 @@
                 <div class="row sort p-0">
                     <div class="col-lg-3 col-md-11 col-10 pl-0">
                         <label for="sort" class="font-weight-bold">Сортувати</label>
-                        <select name="sort" id="sort" v-model="sortCallBack" @change="sortCallBack()">
-                            <option :value="sortName">За назвою</option>
-                            <option :value="sortCountry">За країною</option>
-                            <option :value="sortVendor">За постачальником</option>
-                            <option :value="sortType">За типом</option>
+                        <select name="sort" id="sort"
+                                v-model="sortCallBack"
+                                @change="sortCallBack()">
+                            <option
+                                    v-for="(sort, key) in sorts"
+                                    :key="key"
+                                    :value="sort.cb"
+                            >{{sort.title}}</option>
+<!--                            <option :value="sortName">За назвою</option>-->
+<!--                            <option :value="sortCountry">За країною</option>-->
+<!--                            <option :value="sortVendor">За постачальником</option>-->
+<!--                            <option :value="sortType">За типом</option>-->
                         </select>
 
 
@@ -233,7 +240,8 @@
     import LogIn from "@/components/LogIn";
     import formattedPrice from "@/filters/price_format";
     import {eventEmitter} from "@/main";
-    // import {eventEmitter} from "@/main";
+    import mixinSort from "@/mixins/mixinSort";
+    import mixinCookie from "@/mixins/mixinCookie";
 
     export default {
         name: "Hospital",
@@ -259,25 +267,29 @@
 
                 sortCallBack: null,
                 filters: [],
-                filterType: "",//"Не обрано",
+                filterType: "Не обрано",//"Не обрано",
                 filterFirstNeed: 0,
 
-                // sName: {
-                //     title: "За назвою",
-                //     cb: this.sortName
-                // },
-                // sCountry: {
-                //     title: "За країною",
-                //     cb: this.sortCountry
-                // },
-                // sVendor: {
-                //     title: "За постачальником",
-                //     cb: this.sortVendor
-                // },
-                // sType: {
-                //     title: "За типом",
-                //     cb: this.sortType
-                // },
+                sorts: [
+                    {
+                        title: "За назвою",
+                        cb: this.sortName
+                    },
+                    {
+                        title: "За країною",
+                        cb: this.sortCountry
+                    },
+                    {
+                        title: "За постачальником",
+                        cb: this.sortVendor
+                    },
+                    {
+                        title: "За типом",
+                        cb: this.sortType
+                    },
+                ],
+
+
             }
         },
 
@@ -285,19 +297,36 @@
             formattedPrice,
         },
 
+        mixins: [
+            mixinSort,
+            mixinCookie
+        ],
+
         computed: {
+            getHospitalID() {
+                return this.$store.getters.getHospital.id;
+            },
+
             filtered() {
 
                 return this.needs
                     .filter( need => {
-                        return this.filterType  === "" || need.type_drug_name.indexOf(this.filterType) > -1  })
+                        return this.filterType  === "Не обрано" || need.type_drug_name.indexOf(this.filterType) > -1  })
                     .filter( need => {
                         return +this.filterFirstNeed === 0 || need.first_need > 0
                     } )
         },
 
             allowEdits() {
-                return this.$store.getters.getAllowEdits;
+                if (this.$store.getters.getAllowEdits) {
+                    console.log( this.getCookie('allowEdits') );
+                    return this.$store.getters.getAllowEdits;
+                }
+                else {
+                    console.log( this.getCookie('allowEdits') );
+                    return this.getCookie('allowEdits');
+                }
+
             },
         },
 
@@ -308,7 +337,9 @@
         },
 
         created() {
-            this.hospitalId = this.$route.params.id;
+            if (this.getHospitalID) {this.hospitalId = this.getHospitalID}
+            else { this.hospitalId = this.$route.params.id; }
+
             this.gettingHospital();
             this.getNeeds();
             this.findCity();
@@ -318,8 +349,6 @@
         mounted() {
             this.getType();
         },
-
-
 
         methods: {
 
@@ -416,45 +445,37 @@
                 } )
             },
 
-            sortReverseNeeds(call) {
-                return this.needs = call().reverse();
-            },
-
-            sortName() {
-                let title = "За назвою";
-                console.log(title);
-                return this.needs = this.needs.sort((prev, next) => {
-                    if ( prev.medication_name < next.medication_name ) return -1;
-                    if ( prev.medication_name < next.medication_name ) return 1;
-                });
-            },
-
-            sortCountry() {
-                let title = "За країною";
-                console.log(title);
-                return this.needs = this.needs.sort((prev, next) => {
-                    if ( prev.vendor_country < next.vendor_country ) return -1;
-                    if ( prev.vendor_country < next.vendor_country ) return 1;
-                });
-            },
-
-            sortVendor() {
-                let title = "За постачальником";
-                console.log(title);
-                return this.needs = this.needs.sort((prev, next) => {
-                    if (prev.vendor_name < next.vendor_name) return -1;
-                    if (prev.vendor_name < next.vendor_name) return 1;
-                });
-            },
-
-            sortType() {
-                let title = "За типом";
-                console.log(title);
-                return this.needs = this.needs.sort((prev, next) => {
-                    if ( prev.type_drug_name < next.type_drug_name ) return -1;
-                    if ( prev.type_drug_name < next.type_drug_name ) return 1;
-                });
-            },
+            // sortReverseNeeds(call) {
+            //     return this.needs = call().reverse();
+            // },
+            //
+            // sortName() {
+            //     return this.needs = this.needs.sort((prev, next) => {
+            //         if ( prev.medication_name < next.medication_name ) return -1;
+            //         if ( prev.medication_name < next.medication_name ) return 1;
+            //     });
+            // },
+            //
+            // sortCountry() {
+            //     return this.needs = this.needs.sort((prev, next) => {
+            //         if ( prev.vendor_country < next.vendor_country ) return -1;
+            //         if ( prev.vendor_country < next.vendor_country ) return 1;
+            //     });
+            // },
+            //
+            // sortVendor() {
+            //     return this.needs = this.needs.sort((prev, next) => {
+            //         if (prev.vendor_name < next.vendor_name) return -1;
+            //         if (prev.vendor_name < next.vendor_name) return 1;
+            //     });
+            // },
+            //
+            // sortType() {
+            //     return this.needs = this.needs.sort((prev, next) => {
+            //         if ( prev.type_drug_name < next.type_drug_name ) return -1;
+            //         if ( prev.type_drug_name < next.type_drug_name ) return 1;
+            //     });
+            // },
 
             reset() {
                 // this.filters = [];
