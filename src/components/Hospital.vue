@@ -10,14 +10,6 @@
                 <article class="filters col-lg-6 col-12">
                     <header>
                         <h1>Фільтри</h1>
-
-<!--                        <div class="filter_list row">-->
-<!--                            <h5 class="col-12">Обрані фільтри:</h5>-->
-<!--                            <div class="filter_item col-md-4 col-5" v-for="(filtItem, key) in filters" :key="key">-->
-<!--                                <span>{{filtItem}}</span>-->
-<!--                                <i class="far fa-times-circle" @click="deleteFilter(filtItem, key)"></i>-->
-<!--                            </div>-->
-<!--                        </div>-->
                     </header>
 
                     <form name="body">
@@ -37,7 +29,6 @@
                                 >{{type.name}}</option>
                             </select>
                         </div>
-
 
                         <div class="first_need">
                             <input id="first_need" type="checkbox" v-model="filterFirstNeed" value="1">
@@ -61,14 +52,6 @@
                 </article>
 
                 <div class="data col-lg-6 col-12">
-
-<!--                    <div class="field row">-->
-<!--                        <div class="col-4">-->
-<!--                            <i class="fas fa-map"></i>-->
-<!--                            <h5>Район:</h5>-->
-<!--                        </div>-->
-<!--                        <div class="col-8">{{area.area_name}}</div>-->
-<!--                    </div>-->
 
                     <div class="field row">
                     <div class="col-4">
@@ -121,10 +104,6 @@
                                     :key="key"
                                     :value="sort.cb"
                             >{{sort.title}}</option>
-<!--                            <option :value="sortName">За назвою</option>-->
-<!--                            <option :value="sortCountry">За країною</option>-->
-<!--                            <option :value="sortVendor">За постачальником</option>-->
-<!--                            <option :value="sortType">За типом</option>-->
                         </select>
 
 
@@ -135,7 +114,6 @@
                     </div>
                 </div>
 
-<!--                v-if="needs.length > 0"-->
                 <div class="row header font-weight-bold">
                     <div class="col-2 text-center">
                         <span>Назва</span>
@@ -148,20 +126,15 @@
                     </div>
                     <div class="col-1 text-center">
                         <span>Тип</span>
-<!--                        <p>-->
-<!--                            <i class="fas fa-sort-up" @click="sortType()"></i>-->
-<!--                            <i class="fas fa-sort-down" @click="sortReverseNeeds(sortType)"></i>-->
-<!--                        </p>-->
+
                     </div>
                     <div class="col-3 text-center"><span>Опис</span></div>
                     <div class="col-1 text-center"><span>Перша необхідність</span></div>
                     <div class="col-1 text-center"><span>Наявнівсть, шт.</span></div>
                     <div class="col-1 text-center"><span>Необхідно, шт.</span></div>
                     <div class="col-1 text-center"><span>Орієнтовна вартість, грн. ($)</span></div>
-<!--                    <div class="col-1 text-center"></div>-->
                 </div>
 
-<!--                <div class="row" v-for="(need, key) in needs" :key="key" @click="startEdit(edit)">-->
                 <div class="row" v-for="(need, key) in filtered" :key="key" @click="startEdit(edit)">
                     <div class="sub_header col-5 font-weight-bold">Назва</div>
                     <div class="col-lg-2 col-7">{{need.medication_name}}</div>
@@ -204,12 +177,6 @@
                         {{need.cost_hrn | formattedPrice}} &#8372;<br/>
                         <strong>(${{need.cost_doll | formattedPrice}})</strong>
                     </div>
-
-
-<!--                    <div class="col-1 text-center">-->
-<!--                        <i class="fas fa-pencil-alt" @click="startEdit(need) " title="Редактувати" v-if="need.edit"></i>-->
-<!--                        <i class="far fa-check-circle" @click="endEdit(need) " title="Зберегти" v-else></i>-->
-<!--                    </div>-->
 
                 </div>
             </div>
@@ -267,7 +234,7 @@
 
                 sortCallBack: null,
                 filters: [],
-                filterType: "Не обрано",//"Не обрано",
+                filterType: "Не обрано",
                 filterFirstNeed: 0,
 
                 sorts: [
@@ -359,7 +326,6 @@
                     .then( (response) => {
                         let hospitals = response.data;
                         this.hospital = hospitals.find( hosp => hosp.id === this.hospitalId );
-                        console.log(this.hospital);
                     } )
                     .catch( (error) => {
                         console.log("Ошибка нет Больницы");
@@ -375,7 +341,6 @@
                 .then( (response) => {
                     this.needs = response.data;
                     this.needs.forEach( (n) => { this.$set(n, "edit", true) } );
-
                 } )
                 .catch( (error) => {
                     console.log("Ошибка, нет потребностей");
@@ -385,8 +350,6 @@
 
             startEdit(need) {
                 if (this.allowEdits) {
-                    console.log(need);
-                    console.log(this.hospitalId);
                     if (this.allowEdits === this.hospitalId) {
                         need.edit = false;
                         this.showInfo('Вам дозволено коррегувати данні таблиці', "info_msg" );
@@ -417,7 +380,6 @@
                     }
                 })
                         .then( (response) => {
-                            console.log("Данные переданы успешно");
                             console.log(response);
                             this.showInfo('Данні збережені у базі', "info_msg" );
                         } )
@@ -437,7 +399,6 @@
                 axios.get("https://helpmedic.atlant-mega.com/ajax/medication/all_type")
                 .then( (response) => {
                     this.types = response.data;
-                    console.log(this.types);
                 } )
                 .catch( (error) => {
                     console.log("Ошибка типов препаратов");
@@ -445,40 +406,7 @@
                 } )
             },
 
-            // sortReverseNeeds(call) {
-            //     return this.needs = call().reverse();
-            // },
-            //
-            // sortName() {
-            //     return this.needs = this.needs.sort((prev, next) => {
-            //         if ( prev.medication_name < next.medication_name ) return -1;
-            //         if ( prev.medication_name < next.medication_name ) return 1;
-            //     });
-            // },
-            //
-            // sortCountry() {
-            //     return this.needs = this.needs.sort((prev, next) => {
-            //         if ( prev.vendor_country < next.vendor_country ) return -1;
-            //         if ( prev.vendor_country < next.vendor_country ) return 1;
-            //     });
-            // },
-            //
-            // sortVendor() {
-            //     return this.needs = this.needs.sort((prev, next) => {
-            //         if (prev.vendor_name < next.vendor_name) return -1;
-            //         if (prev.vendor_name < next.vendor_name) return 1;
-            //     });
-            // },
-            //
-            // sortType() {
-            //     return this.needs = this.needs.sort((prev, next) => {
-            //         if ( prev.type_drug_name < next.type_drug_name ) return -1;
-            //         if ( prev.type_drug_name < next.type_drug_name ) return 1;
-            //     });
-            // },
-
             reset() {
-                // this.filters = [];
                 this.filterType = "";
                 this.filterFirstNeed = 0;
             },
@@ -533,26 +461,6 @@
                             font-size: 1.75rem;
                             margin-bottom: 15px;
                         }
-                       /* .filter_list {
-                            h5 {
-                                margin-bottom: 10px;
-                            }
-                            .filter_item {
-                                padding: 5px;
-                                border: 1px solid #aaaaaa;
-                                border-radius: 5px;
-                                margin: 5px;
-                                position: relative;
-                                span {display: inline-block;}
-                                i {
-                                    display: inline-block;
-                                    position: absolute;
-                                    top: 5px;
-                                    right: -140px;
-                                }
-                            }
-                        }*/
-
                     }
 
                     form {
@@ -602,8 +510,6 @@
                                 @include button;
                                 width: 60%;
                             }
-
-
                         }
                     }
                 }
@@ -623,10 +529,7 @@
                             h5 {
                                 display: inline;
                             }
-
                         }
-
-
                     }
                 }
             }
@@ -656,17 +559,13 @@
                             width: 47px;
                         }
                     }
-
                 }
-
-
 
                 .row.header {
                     font-size: 1vw;
                     align-content: center;
                     div {
                         position: relative;
-                        /*padding-left: 15px;*/
                         span {
                             display: inline-block;
                             width: 100%;
@@ -693,7 +592,6 @@
                             }
                         }
                     }
-
                 }
                 .row {
                     font-size: 1.2vw;
@@ -714,10 +612,6 @@
                             color: forestgreen;
                             cursor: pointer;
                         }
-
-                        /*&:first-child {*/
-                        /*    padding-left: 15px;*/
-                        /*}*/
                         &.sub_header {
                             display: none;
                         }
@@ -778,7 +672,7 @@
     .fade-enter-active, .fade-leave-active {
         transition: opacity .5s;
     }
-    .fade-enter, .fade-leave-to /* .fade-leave-active до версии 2.1.8 */ {
+    .fade-enter, .fade-leave-to {
         opacity: 0;
 
     }
@@ -819,10 +713,6 @@
                                 color: forestgreen;
                                 cursor: pointer;
                             }
-
-                            /*&:first-child {*/
-                            /*    padding-left: 15px;*/
-                            /*}*/
                             &.sub_header {
                                 display: none;
                             }
@@ -841,9 +731,6 @@
                     text-align: center;
                 }
             }
-
-
-
             .body {
                 .data_hospital.row {
                     width: 100%;
@@ -914,12 +801,9 @@
                                     @include button;
                                     width: 60%;
                                 }
-
-
                             }
                         }
                     }
-
                     .data {
                         order: -1;
                     }
@@ -936,7 +820,6 @@
                             }
                         }
                     }
-
                     .row {
                         border: 2px solid #aaaaaa;
                         border-radius: 15px;
@@ -964,7 +847,6 @@
                                 border-right: 1px solid #aaaaaa;
 
                             }
-
                         }
                     }
                 }
@@ -1028,8 +910,6 @@
                                 input[type='reset'] {
                                     width: 100%;
                                 }
-
-
                             }
                         }
                     }
@@ -1080,7 +960,6 @@
                                 border-right: 1px solid #aaaaaa;
 
                             }
-
                         }
                     }
                 }
@@ -1148,8 +1027,6 @@
                                 input[type='reset'] {
                                     width: 100%;
                                 }
-
-
                             }
                         }
                     }
@@ -1210,7 +1087,6 @@
                                 border-right: 1px solid #aaaaaa;
 
                             }
-
                         }
                     }
                 }

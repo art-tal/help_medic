@@ -32,7 +32,6 @@
     section.promo {
         @extend %box;
         width: 100%;
-        /*height: 1000px;*/
         background-image: url(../image/nikolaev2.jpg);
         background-repeat: no-repeat;
         -webkit-background-size: 100%;

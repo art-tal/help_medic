@@ -6,7 +6,6 @@
         </div>
 
         <label for="mail">E-mail</label>
-<!--        <span>{{checkEmail}}</span>-->
         <input id="mail"
                type="email"
                class="form-control"
@@ -24,14 +23,10 @@
 
 
         <label for="password">Пароль</label>
-<!--        <span>{{checkPassword}}</span>-->
         <input id="password"
                type="password"
                class="form-control"
                v-model="password">
-
-<!--        :class="{'is-invalid' : $v.password.$error}"-->
-<!--        @blur="$v.password.$touch()"-->
 
         <div class="invalid-feedback" v-if="!$v.password.$minLegth">
             Не відповідає вимогам для поля паролю.
@@ -46,17 +41,12 @@
     import { required, email, minLength } from 'vuelidate/lib/validators'
     import mixinCookie from "@/mixins/mixinCookie";
     import {eventEmitter} from "@/main";
-    // import jQuery from "jquery"
-    // //
-    // const $ = jQuery;
 
     export default {
         name: "LogIn",
 
         data() {
             return {
-                // regexpEmail: /.+@.+\..+/i,
-                // regexpPassword: /[A-Za-z_0-9]{6,}/,
 
                 eMail: "",
                 password: "",
@@ -88,7 +78,6 @@
 
         methods: {
             onSubmit() {
-                // axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
                 axios.post(
                     `https://helpmedic.atlant-mega.com/ajax/auth`,
                     {
@@ -100,7 +89,6 @@
                     this.allowEdits = response.data;
                     this.$store.state.allowEdits = response.data;
                     document.cookie = `allowEdits=${this.allowEdits}`;
-                    console.log( this.allowEdits );
                     if(this.allowEdits) {
                         eventEmitter.$emit("closeLogin");
                         this.$store.state.user = this.eMail;
@@ -139,14 +127,11 @@
         }
 
         label {
-            /*font-size: 1.2rem;*/
             margin-top: 15px;
             margin-bottom: 5px;
         }
         input {
             padding: 10px 15px;
-            /*font-size: 1.2rem;*/
-            /*margin-bottom: 15px;*/
             border-radius: 10px;
             border: 1px solid #00AEEF;
             background-color: #fff;

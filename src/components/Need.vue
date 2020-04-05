@@ -17,9 +17,7 @@
                                        @click.prevent="reset()"
                                        value="Скинути усі фільтри">
                             </h1>
-                            <!--                        <div class="reset">-->
 
-                            <!--                        </div>-->
                         </header>
 
                         <div class="row wrap">
@@ -123,7 +121,6 @@
                 <div class="col-1 text-center">Орієнтовна вартість, грн. ($)</div>
             </div>
 
-<!--            <div class="row" v-for="(need, key) in needs" :key="key">-->
             <div class="row" v-for="(need, key) in filtered" :key="key">
                 <div class="col-5 sub_header">Лікарня</div>
                 <div class="col-lg-2 col-7">
@@ -182,13 +179,9 @@
                 cities: [],
                 hospitals: [],
 
-                // filters: [],
                 filterType: "Не обрано",
-                // filterType: "",
                 filterCity: "Не обрано",
-                // filterCity: "",
                 filterHospital: "Не обрано",
-                // filterHospital: "",
                 filterFirstNeed: 0,
 
             }
@@ -207,13 +200,10 @@
                 return this.needs
                     .filter( need => {
                         return this.filterCity  === "Не обрано" || need.city_name.indexOf(this.filterCity) > -1  })
-                        // return this.filterCity  === "" || need.city_name.indexOf(this.filterCity) > -1  })
                     .filter( need => {
                         return this.filterHospital  === "Не обрано" || need.hospital_name.indexOf(this.filterHospital) > -1  })
-                        // return this.filterHospital  === "" || need.hospital_name.indexOf(this.filterHospital) > -1  })
                     .filter( need => {
                         return this.filterType  === "Не обрано" || need.type_drug_name.indexOf(this.filterType) > -1  })
-                        // return this.filterType  === "" || need.type_drug_name.indexOf(this.filterType) > -1  })
                     .filter( need => {
                         return +this.filterFirstNeed === 0 || need.first_need > 0
                     } )
@@ -243,21 +233,17 @@
                 )
                 .then( (response) => {
                     this.needs = response.data;
-                    console.log(this.needs);
                 } )
                 .catch( (error) => {
                     console.log("Ошибка!");
                     console.log(error);
                 } );
-               // this.gettingHospital();
-            //
             },
 
             getType() {
                 axios.get("https://helpmedic.atlant-mega.com/ajax/medication/all_type")
                     .then( (response) => {
                         this.types = response.data;
-                        console.log(this.types);
                     } )
                     .catch( (error) => {
                         console.log("Ошибка типов препаратов");
@@ -266,9 +252,7 @@
             },
 
             getCities() {
-                axios.get('https://helpmedic.atlant-mega.com/ajax/cities/all'//,
-
-                )
+                axios.get('https://helpmedic.atlant-mega.com/ajax/cities/all' )
                     .then( (response) => {
                         this.cities = response.data;
                     } )
@@ -284,7 +268,6 @@
                 )
                     .then( (response) => {
                         this.hospitals = response.data;
-                        console.log(this.hospitals);
                     } )
                     .catch( (error) => {
                         console.log("Ошибка Загрузки данных");
@@ -294,82 +277,13 @@
 
             reset() {
                 this.filterCity = "Не обрано";
-                // this.filterCity = "";
                 this.filterHospital = "Не обрано";
-                // this.filterHospital = "";
                 this.filterType = "Не обрано";
-                // this.filterType = "";
                 this.filterFirstNeed = 0;
             },
 
-            // sortReverseNeeds(call) {
-            //     return this.needs = call().reverse();
-            // },
-            //
-            // sortHospital() {
-            //     return this.needs = this.needs.sort((prev, next) => {
-            //         if ( prev.hospital_name < next.hospital_name ) return -1;
-            //         if ( prev.hospital_name < next.hospital_name ) return 1;
-            //     });
-            // },
-
-
-            // sortReady() {
-            //     return this.needs = this.needs.sort((prev, next) => {
-            //         if ( prev.hospital_name < next.hospital_name ) return -1;
-            //         if ( prev.hospital_name < next.hospital_name ) return 1;
-            //     });
-            // },
-
-
-
-            // sortName() {
-            //     return this.needs = this.needs.sort((prev, next) => {
-            //         if ( prev.medication_name < next.medication_name ) return -1;
-            //         if ( prev.medication_name < next.medication_name ) return 1;
-            //     });
-            // },
-            //
-            // sortCountry() {
-            //     return this.needs = this.needs.sort((prev, next) => {
-            //         if ( prev.vendor_country < next.vendor_country ) return -1;
-            //         if ( prev.vendor_country < next.vendor_country ) return 1;
-            //     });
-            // },
-            //
-            // sortVendor() {
-            //     return this.needs = this.needs.sort((prev, next) => {
-            //         if (prev.vendor_name < next.vendor_name) return -1;
-            //         if (prev.vendor_name < next.vendor_name) return 1;
-            //     });
-            // },
-            //
-            // sortType() {
-            //     return this.needs = this.needs.sort((prev, next) => {
-            //         if ( prev.type_drug_name < next.type_drug_name ) return -1;
-            //         if ( prev.type_drug_name < next.type_drug_name ) return 1;
-            //     });
-            // },
-
-
-            // gettingHospital() {
-            //     axios.get(
-            //         "https://helpmedic.atlant-mega.com/ajax/hospitals",
-            //         {params: {id: 1}},
-            //     )
-            //         .then((response) => {
-            //             this.getHospital = response.data;
-            //             console.log(this.hospital);
-            //         })
-            //         .catch((error) => {
-            //             console.log("Ошибка нет Больницы");
-            //             console.log(error);
-            //         });
-            // },
-
             setHospital(hospital) {
                 this.$store.state.hospital = hospital;
-                // console.log(hospital)
                 this.$router.push({name: "hospital", params: {id: hospital}});
             },
 

@@ -59,12 +59,10 @@
         border: 2px solid #00AEEF;
         border-top: none;
         label {
-            /*font-size: 1.2rem;*/
             margin-bottom: 10px;
         }
         input {
             padding: 10px 15px;
-            /*font-size: 1.2rem;*/
             margin-bottom: 15px;
             border-radius: 10px;
             border: 1px solid #00AEEF;
@@ -84,7 +82,6 @@
 
         button, input[type="reset"] {
             @include button;
-
         }
     }
 

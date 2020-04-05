@@ -51,12 +51,10 @@
 
         computed: {
           getArea() {
-              // console.log(this.$store.getters.getArea);
               return this.$store.getters.getArea
           },
 
             getCity() {
-                // console.log(this.$store.getters.getCity);
               return this.$store.getters.getCity;
             },
         },
@@ -83,7 +81,6 @@
                 )
                     .then((response) => {
                         this.areas = response.data;
-                        // console.log(this.areas);
                     })
                     .catch((error) => {
                         console.log("Ошибка!");
@@ -92,12 +89,9 @@
             },
 
             getCities() {
-                axios.get('https://helpmedic.atlant-mega.com/ajax/cities/all'
-
-                )
+                axios.get('https://helpmedic.atlant-mega.com/ajax/cities/all' )
                     .then( (response) => {
                         this.cities = response.data;
-                        console.log(response.data);
                     } )
                     .catch( (error) => {
                         console.log("Ошибка! населенка");
@@ -106,12 +100,9 @@
             },
 
             getHospitals() {
-                axios.get(
-                    "https://helpmedic.atlant-mega.com/ajax/hospitals/all"
-                )
+                axios.get("https://helpmedic.atlant-mega.com/ajax/hospitals/all" )
                     .then( (response) => {
                         this.hospitals = response.data;
-                        console.log(this.hospitals);
                     } )
                     .catch( (error) => {
                         console.log("Ошибка Загрузки данных");
@@ -131,7 +122,6 @@
 
             setHospital(hospital) {
                 this.$store.state.hospital = hospital;
-                // console.log(hospital)
                 this.$router.push({name: "hospital", params: {id: hospital.id}});
             },
         }

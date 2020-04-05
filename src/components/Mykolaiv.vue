@@ -38,7 +38,6 @@
 
 
             <div class="map col-lg-8 col-12">
-<!--                <google-></google->-->
                 <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d821116.2854233051!2d31.588305633583683!3d47.4672520037775!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40c59abab155d4c9%3A0x9382d10df151ad2e!2z0J3QuNC60L7Qu9Cw0LXQstGB0LrQsNGPINC-0LHQu9Cw0YHRgtGM!5e0!3m2!1sru!2sua!4v1585406198748!5m2!1sru!2sua" width="600" height="450" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
             </div>
         </article>
@@ -48,14 +47,9 @@
 
 <script>
     import axios from "axios"
-    // import googleMap from "@/components/googleMap";
 
     export default {
         name: "Mykolaiv",
-
-        components: {
-            // googleMap
-        },
 
         data() {
             return {
@@ -106,16 +100,13 @@
                 if (this.cities.length === 1) {
                     this.city = this.cities[0];
                     this.$store.state.city = this.city;
-                    console.log(this.$store.state.city);
                 }
             },
 
             selectCity() {
                 this.$store.state.city = this.city;
-                // console.log(this.$store.state.city );
                 this.area = this.areas.find( ar => ar.area_id === this.city.area_id );
                 this.$store.state.area = this.area;
-                // console.log(this.area);
                 this.blockAreaField = true;
                 },
 
@@ -186,15 +177,10 @@
 
                     select {
                         @include select;
-                        /*margin-bottom: 15px;*/
-                        /*border: 1px solid #00AEEF;*/
-                        /*padding: 10px 15px;*/
-                        /*border-radius: 10px;*/
                         h3 {
                             @include flex;
                             justify-content: space-between;
                             margin: 0;
-                            /*display: inline;*/
                             font-size: 1.3rem;
                             font-weight: normal;
                             i {
@@ -208,9 +194,6 @@
 
                     input[type="reset"].btn.btn-dark {
                         @include button
-                        /*padding: 7px 10px;*/
-                        /*background-color: #929292;*/
-                        /*border-radius: 10px;*/
                     }
                 }
             }
@@ -258,7 +241,6 @@
                             font-weight: normal;
                         }
                         select {
-                            /*height: 64px;*/
                             border: 1px solid #00AEEF;
                             padding: 10px 15px;
                             border-radius: 10px;
@@ -266,7 +248,6 @@
                                 @include flex;
                                 justify-content: space-between;
                                 margin: 0;
-                                /*display: inline;*/
                                 font-size: 1.3rem;
                                 font-weight: normal;
                                 i {
