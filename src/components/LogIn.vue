@@ -39,8 +39,8 @@
 <script>
     import axios from "axios"
     import { required, email, minLength } from 'vuelidate/lib/validators'
-    import mixinCookie from "@/mixins/mixinCookie";
-    import {eventEmitter} from "@/main";
+    import mixinCookie from "../mixins/mixinCookie";
+    import {eventEmitter} from "../main.js";
 
     export default {
         name: "LogIn",
@@ -109,7 +109,7 @@
 </script>
 
 <style lang="scss" scoped>
-    @import './src/styles/_variable';
+    @import '../styles/_variable';
 
     * {
         margin: 0;

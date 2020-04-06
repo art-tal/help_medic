@@ -46,7 +46,7 @@
 </script>
 
 <style lang="scss" scoped>
-    @import './src/styles/_variable';
+    @import '../styles/_variable';
 
     * {
         margin: 0;

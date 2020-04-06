@@ -1,12 +1,12 @@
 import VueRouter from "vue-router"
-import Mykolaiv from "@/components/Mykolaiv";
-import Hospital from "@/components/Hospital";
-import Home from "@/components/Home";
-import Need from "@/components/Need";
-import About from "@/components/About";
-import Authorization from "@/components/Authorization";
-import LogIn from "@/components/LogIn";
-import Registration from "@/components/Registration";
+import Mykolaiv from "../components/Mykolaiv";
+import Hospital from "../components/Hospital";
+import Home from "../components/Home";
+import Need from "../components/Need";
+import About from "../components/About";
+import Authorization from "../components/Authorization";
+import LogIn from "../components/LogIn";
+import Registration from "../components/Registration";
 
 export default new VueRouter({
     routes: [

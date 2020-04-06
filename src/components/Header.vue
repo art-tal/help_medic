@@ -84,7 +84,7 @@
 </template>
 
 <script>
-    import mixinCookie from "@/mixins/mixinCookie";
+    import mixinCookie from "../mixins/mixinCookie";
 
     export default {
         name: "Header",
@@ -148,7 +148,7 @@
 
 <!--<style scoped>-->
 <style lang="scss" scoped>
-    @import './src/styles/_variable';
+    @import '../styles/_variable';
 
     /** {*/
     /*    margin: 0;*/

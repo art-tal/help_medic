@@ -7,9 +7,9 @@
 </template>
 
 <script>
-    import Promo from "@/components/Promo";
-    import Mykolaiv from "@/components/Mykolaiv";
-    import Hospitals from "@/components/Hospitals";
+    import Promo from "../components/Promo";
+    import Mykolaiv from "../components/Mykolaiv";
+    import Hospitals from "../components/Hospitals";
 
     export default {
         name: "Home",
@@ -23,7 +23,7 @@
 </script>
 
 <style lang="scss" scoped>
-    @import './src/styles/_variable';
+    @import '../styles/_variable';
 
     * {
         margin: 0;

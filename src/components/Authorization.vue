@@ -37,7 +37,7 @@
 </template>
 
 <script>
-    import {eventEmitter} from "@/main";
+    import {eventEmitter} from "../main";
 
     export default {
         name: "Authorization",

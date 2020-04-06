@@ -204,11 +204,11 @@
 
 <script>
     import axios from "axios"
-    import LogIn from "@/components/LogIn";
-    import formattedPrice from "@/filters/price_format";
-    import {eventEmitter} from "@/main";
-    import mixinSort from "@/mixins/mixinSort";
-    import mixinCookie from "@/mixins/mixinCookie";
+    import LogIn from "../components/LogIn";
+    import formattedPrice from "../filters/price_format";
+    import {eventEmitter} from "../main";
+    import mixinSort from "../mixins/mixinSort";
+    import mixinCookie from "../mixins/mixinCookie";
 
     export default {
         name: "Hospital",
@@ -432,7 +432,7 @@
 </script>
 
 <style lang="scss" scoped>
-    @import './src/styles/_variable';
+    @import '../styles/_variable';
 
     * {
         margin: 0;

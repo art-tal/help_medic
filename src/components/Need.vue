@@ -164,8 +164,8 @@
 
 <script>
     import axios from "axios"
-    import formattedPrice from "@/filters/price_format";
-    import mixinSort from "@/mixins/mixinSort";
+    import formattedPrice from "../filters/price_format";
+    import mixinSort from "../mixins/mixinSort";
 
     export default {
         name: "Need",
@@ -292,7 +292,7 @@
 </script>
 
 <style lang="scss" scoped>
-    @import './src/styles/_variable';
+    @import '../styles/_variable';
 
     * {
         margin: 0;

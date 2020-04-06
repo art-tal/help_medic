@@ -10,7 +10,7 @@ import App from './App.vue'
 Vue.use(jQuery);
 Vue.use(Vuelidate);
 Vue.use(VueRouter);
-Vue.use(axios)
+Vue.use(axios);
 Vue.config.productionTip = false;
 
 window.axios = require('axios');
