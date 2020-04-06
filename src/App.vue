@@ -12,8 +12,8 @@
 <script>
 
 
-import Header from "./components/Header";
-import Footer from "./components/Footer";
+import Header from "./js/components/Header";
+import Footer from "./js/components/Footer";
 
 
 export default {
