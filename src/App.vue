@@ -3,12 +3,6 @@
     <app-header></app-header>
 
     <router-view></router-view>
-<!--    <home></home>-->
-
-<!--    <promo></promo>-->
-<!--    <mykolaiv></mykolaiv>-->
-
-
 
     <aap-footer></aap-footer>
   </div>

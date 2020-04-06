@@ -173,7 +173,8 @@
                 height: 100%;
                 padding: 0 10px 0 70px;
                 margin: 5px;
-                background-image: url(../image/help_medic.png);
+                background-image: url(../image/logo.png);
+                /*background-image: url(../image/help_medic.png);*/
                 background-repeat: no-repeat;
                 -webkit-background-size: 60px;
                 background-size: 60px;

@@ -1,8 +1,5 @@
 import Vue from "vue"
 import Vuex from "vuex"
-// import jQuery from "jquery"
-
-// const $ = jQuery;
 
 Vue.use(Vuex);
 
@@ -20,10 +17,6 @@ export default new Vuex.Store({
 
     getters: {
         getUser(state) {
-            // if ($.cookie("allowEdits")){
-            //     state.allowEdits = $.cookie("allowEdits");
-            //     state.user = $.cookie('user');
-            // }
             return state.user;
         },
 
