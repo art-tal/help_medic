@@ -40,7 +40,7 @@
     import axios from "axios"
     import { required, email, minLength } from 'vuelidate/lib/validators'
     import mixinCookie from "../mixins/mixinCookie";
-    import {eventEmitter} from "../main.js";
+    import {eventEmitter} from "./js/main.js";
 
     export default {
         name: "LogIn",

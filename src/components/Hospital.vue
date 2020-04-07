@@ -206,7 +206,7 @@
     import axios from "axios"
     import LogIn from "../components/LogIn";
     import formattedPrice from "../filters/price_format";
-    import {eventEmitter} from "../main";
+    import {eventEmitter} from "./js/main";
     import mixinSort from "../mixins/mixinSort";
     import mixinCookie from "../mixins/mixinCookie";
 
