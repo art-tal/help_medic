@@ -3,7 +3,15 @@
 
         <nav class="navbar navbar-expand-lg navbar-light bg-light row">
 
-            <a class="navbar-brand col-xl-2 col-3 text-left" href="#">Відродження<br>Регіону</a>
+<!--            <a class="navbar-brand col-xl-2 col-3 text-left" href="#">Відродження<br>Регіону</a>-->
+            <router-link
+                    tag="a"
+                    class="navbar-brand col-xl-2 col-3 text-left"
+                    exact
+                    to="/"
+            >
+                Відродження<br>Регіону
+            </router-link>
 
             <button class="navbar-toggler col-md-1 col-sm-2 col-4" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -16,7 +24,7 @@
                             class="nav-item"
                             exact
                             active-class="active"
-                            to="/home"
+                            to="/"
                     >
                         <a class="nav-link">Лікарні</a>
                     </router-link>
@@ -56,11 +64,11 @@
 <!--                    <li class="nav-item">-->
 <!--                        <a class="nav-link" href="#">Контакти</a>-->
 <!--                    </li>-->
-                    <div class="navbar-text language_bar my-2 my-lg-0">
+<!--                    <div class="navbar-text language_bar my-2 my-lg-0">-->
                         <!--                    <h5>EN</h5>-->
                         <!--                    <h5>RU</h5>-->
-                        <h5>UA</h5>
-                    </div>
+<!--                        <h5>UA</h5>-->
+<!--                    </div>-->
 
                     <router-link
                             tag="li"

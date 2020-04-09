@@ -159,16 +159,17 @@
                     <div class="sub_header col-5 font-weight-bold">Наявнівсть, шт.</div>
                     <div class="col-lg-1 col-7 text-center">
                         <span v-if="need.edit">{{need.count_available}}</span>
-                        <input type="text" v-model="need.count_available" v-else pattern="/d">
+                        <input type="text" v-model.number="need.count_available" v-else pattern="[0-9]+">
                     </div>
 
                     <div class="sub_header col-5 font-weight-bold">Необхідно, шт.</div>
                     <div class="col-lg-1 col-7 text-center">
                         <span v-if="need.edit" @click="startEdit(need)">{{need.count_needed}}</span>
-                        <input type="text" v-model="need.count_needed" v-if="!need.edit" pattern="/d">
+                        <input type="text" v-model.number="need.count_needed" v-if="!need.edit" pattern="[0-9]+">
 
-                        <i class="fas fa-pencil-alt" @click="startEdit(need) " title="Редактувати" v-if="need.edit"></i>
-                        <i class="far fa-check-circle" @click="endEdit(need) " title="Зберегти" v-else></i>
+<!--                        v-if="need.edit"-->
+                        <i class="fas fa-pencil-alt" @click="startEdit(need)" title="Редактувати" v-if="allowEdits && need.edit"></i>
+                        <i class="far fa-check-circle" @click="endEdit(need)" title="Зберегти" v-if="!need.edit"></i>
 
                     </div>
 
@@ -206,7 +207,7 @@
     import axios from "axios"
     import LogIn from "../components/LogIn";
     import formattedPrice from "../filters/price_format";
-    import {eventEmitter} from "./js/main";
+    import {eventEmitter} from "../main";
     import mixinSort from "../mixins/mixinSort";
     import mixinCookie from "../mixins/mixinCookie";
 
@@ -357,7 +358,7 @@
                         this.showInfo('Вам не дозволено коррегувати цю таблицю, так як Ваш аккаунт відповідає іншій лікарні', "error_msg" );
                     }
                 } else {
-                    this.showLogIn = true;
+                    // this.showLogIn = true;
                 }
 
             },
