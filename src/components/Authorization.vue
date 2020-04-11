@@ -118,16 +118,19 @@
 
     @media (max-width: 991.9px) {
         article.authorization.container-fluid {
+            min-width: 400px;
             -webkit-background-size: cover;
             background-size: cover;
             padding: 60px 0;
             .block {
-                min-width: 470px;
+                min-width: 400px;
                 width: 55%;
 
             }
 
         }
     }
+
+    @media (max-width: 575.9px) {}
 
 </style>
