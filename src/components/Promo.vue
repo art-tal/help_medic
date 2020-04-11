@@ -160,7 +160,9 @@
 
     @media (max-width: 576px) {
         section.promo {
-            min-width: 470px;
+            min-width: 400px;
+            -webkit-background-size: cover;
+            background-size: cover;
             .wrap {
                 padding: 10px 20px;
                 header h1{

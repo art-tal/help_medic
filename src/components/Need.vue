@@ -511,9 +511,9 @@
         }
     }
 
-    @media (max-width: 991.9px) {
+    @media (min-width: 576px) and (max-width: 991.9px) {
         section.container-fluid {
-            min-width: 470px;
+            min-width: 400px;
             padding-bottom: 40px;
             header {
                 h1 {
@@ -559,6 +559,72 @@
                     padding: 15px;
                     div {
                         font-size: 1.2rem;
+                        padding: 5px;
+                        border: none;
+                        border-bottom: 1px solid #aaaaaa;
+                        &.sub_header {
+                            display: block;
+                            border-right: 1px solid #aaaaaa;
+                            font-weight: bold;
+                        }
+                    }
+                    &.header {
+                        display: none;
+                    }
+
+                }
+            }
+        }
+    }
+
+    @media (max-width: 575.9px) {
+        section.container-fluid {
+            min-width: 400px;
+            padding-bottom: 40px;
+            header {
+                h1 {
+                    font-size: 2.5rem;
+                }
+            }
+
+            .body {
+
+                .row.setting {
+                    border: none;
+                    padding: 0;
+                    article.filters {
+                        form {
+                            .wrap.row {
+                                .first_need {
+                                    text-align: center;
+                                    padding-top: 45px;
+                                    label {
+                                        width: auto;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    .row.sort {
+                        form {
+                            label {
+                                margin-left: 0;
+                            }
+                            select {
+                                margin: 0;
+                            }
+                        }
+                    }
+                }
+
+                .row {
+                    border: 2px solid #aaaaaa;
+                    border-radius: 15px;
+                    margin-bottom: 15px;
+                    padding: 15px;
+                    div {
+                        font-size: 1.0rem;
                         padding: 5px;
                         border: none;
                         border-bottom: 1px solid #aaaaaa;

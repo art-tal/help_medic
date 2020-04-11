@@ -10,12 +10,14 @@
                     exact
                     to="/"
             >
-                Відродження<br>Регіону
+                <h4>Відродження<br>Регіону</h4>
             </router-link>
+            <div class="wrap d-lg-none col-md-1 col-sm-2 col-4 text-right">
+                <button class="navbar-toggler " type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
 
-            <button class="navbar-toggler col-md-1 col-sm-2 col-4" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
 
             <div class="collapse navbar-collapse bg-light col-xl-10" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
@@ -180,7 +182,7 @@
                 display: block;
                 height: 100%;
                 padding: 0 10px 0 70px;
-                margin: 5px;
+                margin: 0;
                 background-image: url(../image/logo.png);
                 /*background-image: url(../image/help_medic.png);*/
                 background-repeat: no-repeat;
@@ -188,7 +190,7 @@
                 background-size: 60px;
                 background-position: 0 center;
                 vertical-align: middle;
-                h1 {
+                h4 {
                     padding: 10px 0;
                     height: 100%;
                     font-size: 0.8rem;
@@ -201,9 +203,14 @@
                 ul.navbar-nav {
                     li.nav-item {
                         width: auto;
+                        padding: 10px 0;
                         a.nav-link {
-                            padding-left: 1rem;
-                            padding-right: 1rem;
+                            height: 100%;
+                            padding: 8px 1rem;
+                            font-size: 1.4rem;
+                            /*padding-left: 1rem;*/
+                            /*padding-right: 1rem;*/
+
                         }
                     }
                 }
@@ -254,13 +261,23 @@
 
     @media (max-width: 992px) {
         header.container-fluid {
-            min-width: 470px;
+            min-width: 400px;
             nav.navbar {
+                .wrap {
+                    button.navbar-toggler {
+                        width: 60px;
+                    }
+                }
+
                 .collapse.navbar-collapse {
+                    width: 100%;
                     .navbar-nav {
                         .nav-item {
                             border-bottom: 1px solid #f0f0f0;
                             align-items: flex-start;
+                            a.nav-link {
+                                font-size: 1.8rem;
+                            }
                         }
                     }
                 }

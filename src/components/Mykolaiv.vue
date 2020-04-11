@@ -216,7 +216,7 @@
 
     @media (max-width: 576px) {
         section.container {
-            min-width: 470px;
+            min-width: 400px;
             padding: 30px 20px;
             margin: 0 auto;
             article.row.choice_district {

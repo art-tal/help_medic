@@ -70,10 +70,10 @@
             color: #ffffff;
             font-size: 0.9rem;
 
-            span {
-                flex: 1;
-                vertical-align: top;
-            }
+            /*span {*/
+            /*    flex: 1;*/
+            /*    vertical-align: top;*/
+            /*}*/
             div.develop {
                 vertical-align: middle;
                 flex: 1;
@@ -89,7 +89,7 @@
                 }
                 span {
                     display: inline-block;
-                    width: auto;
+                    width: calc(100% - 100px);
                     padding-left: 20px;
                 }
                 margin-right: 20px;
@@ -100,7 +100,7 @@
 
     @media (max-width: 576px) {
         footer.container-fluid {
-            min-width: 470px;
+            min-width: 400px;
             .row {
                 padding: 20px 0;
                 div {

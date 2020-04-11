@@ -58,7 +58,7 @@
                         <i class="far fa-map"></i>
                         <h5>Місто:</h5>
                     </div>
-                    <div class="col-8">{{city.name}}</div>
+                    <div class="col-8 text-sm-left text-right">{{city.name}}</div>
                 </div>
 
                     <div class="field row">
@@ -66,7 +66,7 @@
                             <i class="fas fa-map-marked-alt"></i>
                             <h5>Адреса:</h5>
                         </div>
-                        <div class="col-8">{{hospital.address}}</div>
+                        <div class="col-8 text-sm-left text-right">{{hospital.address}}</div>
                     </div>
 
                     <div class="field row">
@@ -74,7 +74,7 @@
                             <i class="fas fa-phone-square-alt"></i>
                             <h5>Телефон:</h5>
                         </div>
-                        <div class="col-8">{{hospital.tel}}</div>
+                        <div class="col-8 text-sm-left text-right">{{hospital.tel}}</div>
                     </div>
 
                     <div class="field row">
@@ -82,7 +82,7 @@
                             <i class="fas fa-book-open"></i>
                             <h5>ЄДРПОУ:</h5>
                         </div>
-                        <div class="col-8">{{hospital.invoice}}</div>
+                        <div class="col-8 text-sm-left text-right">{{hospital.invoice}}</div>
                     </div>
 
                 </div>
@@ -881,7 +881,7 @@
 
     @media (min-width: 576px) and (max-width: 767.9px) {
         section.hospital.container-fluid {
-            min-width: 470px;
+            min-width: 400px;
             header {
                 h1 {
                     text-align: center;
@@ -994,12 +994,13 @@
 
     @media (max-width: 576px) {
         section.hospital.container-fluid {
-            min-width: 470px;
+            min-width: 400px;
             padding-left: 20px;
             padding-right: 20px;
             header {
                 h1 {
                     text-align: center;
+                    font-size: 1.6rem;
                 }
             }
             .body {
@@ -1009,6 +1010,9 @@
                         justify-content: space-around;
                         padding-right: 0;
                         header {
+                            h1 {
+                                font-size: 1.5rem;
+                            }
                             .filter_list {
                                 .filter_item {
                                     span {
@@ -1058,10 +1062,21 @@
 
                     .data {
                         order: -1;
+                        .field.row {
+                            div {
+                                font-size: 1.2rem;
+                                h5 {
+                                    font-size: 1.2rem;
+                                }
+                            }
+                        }
                     }
                 }
 
                 .needs {
+                    h2 {
+                        font-size: 1.5rem;
+                    }
                     .header {
                         display: none;
                     }
@@ -1075,7 +1090,7 @@
                         }
                     }
 
-                    .row.add{
+                    /*.row.add{
                         border: none;
                         background-color: #fff;
                         div {
@@ -1083,7 +1098,7 @@
                                 @include button;
                             }
                         }
-                    }
+                    }*/
 
                     .row {
                         border: 2px solid #aaaaaa;
@@ -1096,6 +1111,7 @@
                             border-bottom: 1px solid #aaaaaa;
                             padding: 5px;
                             text-align: center;
+                            font-size: 1.0rem;
                             &:first-child {
                                 padding-left: 5px;
                             }
@@ -1110,6 +1126,7 @@
                                 display: block;
                                 font-weight: bold;
                                 border-right: 1px solid #aaaaaa;
+                                font-size: 1.0rem;
 
                             }
                         }

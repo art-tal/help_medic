@@ -396,7 +396,7 @@
 
     @media (max-width: 567.9px) {
         section.about.container-fluid {
-            min-width: 470px;
+            min-width: 400px;
             .img {
                 height: 25vh;
             }

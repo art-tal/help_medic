@@ -15,9 +15,9 @@
                             :key="key"
                         >
                             <li class="hosp_item row">
-                                <p class="col-lg-2 col-md-3 col-6">{{city.name}}</p>
+                                <p class="col-lg-2 col-md-3 col-sm-6 col-12">{{city.name}}</p>
                                 <a class="col-lg-8 col-md-6 col-12" @click.prevent="setHospital(hosp)">{{hosp.name}}</a>
-                                <p class="col-lg-2 col-md-3 col-6">{{hosp.address}}</p>
+                                <p class="col-lg-2 col-md-3 col-sm-6 col-12">{{hosp.address}}</p>
                             </li>
                         </ul>
                     </li>
@@ -209,7 +209,7 @@
 
     @media (max-width: 576px) {
         section.find_hospitals.container {
-            min-width: 470px;
+            min-width: 400px;
             padding: 0 30px 30px;
             ul.area {
                 list-style-type: none;
@@ -226,9 +226,16 @@
                                     margin-top: 10px;
                                     a {
                                         order:-1;
+                                        padding-bottom: 5px;
+                                        padding-top: 5px;
+                                    }
+                                    p {
+                                        padding-bottom: 0;
+                                        padding-top: 0;
                                     }
                                     p:last-child {
-                                        text-align: right;
+                                        text-align: left;
+                                        padding-bottom: 10px;
                                     }
                                 }
                             }
