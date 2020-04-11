@@ -226,6 +226,8 @@
                 hospital: {},
                 needs: [],
 
+                hospitalTitle: "",
+
                 showLogIn: false,
                 msgInfo: "",
                 cls: "",
@@ -260,6 +262,26 @@
 
             }
         },
+
+        metaInfo() {
+            return {
+                title: `HelpMedic | ${this.hospitalTitle}`,
+                meta: [
+                    {
+                        vmid: "description",
+                        name: "description",
+                        content: `Допомога лікарні '${this.hospitalTitle}' в придбанні необхідних засобів для запобігання та боротьби з covid-19`
+                    },
+                    {
+                        vmid: "keywords",
+                        name: "keywords",
+                        content: `${this.hospitalTitle}  потребує, Миколаївська область, необхідні засоби, епідемія, covid-19`
+                    },
+                ],
+            }
+        },
+
+
 
         filters:{
             formattedPrice,
@@ -316,6 +338,7 @@
 
         mounted() {
             this.getType();
+            // this.hospitalTitle = this.hospital.name;
         },
 
         methods: {
@@ -327,6 +350,7 @@
                     .then( (response) => {
                         let hospitals = response.data;
                         this.hospital = hospitals.find( hosp => hosp.id === this.hospitalId );
+                        this.hospitalTitle = this.hospital.name;
                     } )
                     .catch( (error) => {
                         console.log("Ошибка нет Больницы");

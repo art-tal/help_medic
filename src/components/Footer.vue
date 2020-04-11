@@ -17,16 +17,15 @@
         </div>
         <div class="d-flex last">
             <div class="develop text-left">
-                <a href="atlant-mega.in.ua" title="Atlant-Mega"></a>
+                <a href="https://atlant-mega.com/" title="Atlant-Mega"></a>
                 <span>
                     © 2020 Atlant-Mega | Создание сайтов.<br/>
                 Копирование материалов разрешено только с активной ссылкой на источник
                 </span>
-
             </div>
-            <span class="text-right">
-                +38 (096) 574-77-08 <br/>keeper@ninydev.com
-            </span>
+<!--            <span class="text-right">-->
+<!--                +38 (096) 574-77-08 <br/>keeper@ninydev.com-->
+<!--            </span>-->
         </div>
     </footer>
 </template>

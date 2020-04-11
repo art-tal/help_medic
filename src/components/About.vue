@@ -60,7 +60,23 @@
 
 <script>
     export default {
-        name: "About"
+        name: "About",
+
+        metaInfo: {
+            title: "HelpMedic | Про фонд",
+            meta: [
+                {
+                    vmid: "description",
+                    name: "description",
+                    content: `Фонд допомоги лікарням Миколаївської області в придбанні необхідних засобів для запобігання та боротьби з covid-19`
+                },
+                {
+                    vmid: "keywords",
+                    name: "keywords",
+                    content: `Відродження регіору, Миколаївська область, Фонд допомоги лікарням, епідемія, covid-19`
+                },
+            ],
+        },
     }
 </script>
 

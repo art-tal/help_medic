@@ -187,6 +187,22 @@
             }
         },
 
+        metaInfo: {
+            title: 'HelpMedic | Потреби всіх лікарень Миколаївської області',
+            meta: [
+                {
+                    vmid: "description",
+                    name: "description",
+                    content: `Лікарні Миколаївської області потребують допомоги в придбанні необхідних засобів для запобігання та боротьби з covid-19`
+                },
+                {
+                    vmid: "keywords",
+                    name: "keywords",
+                    content: `Терміново необхідно, Миколаївська область, необхідні засоби, епідемія, covid-19`
+                },
+            ],
+        },
+
         filters: {
             formattedPrice
         },

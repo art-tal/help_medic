@@ -14,6 +14,22 @@
     export default {
         name: "Home",
 
+        metaInfo: {
+            title: "HelpMedic | Лікарні Миколаївської області",
+            meta: [
+                {
+                    vmid: "description",
+                    name: "description",
+                    content: `Допомога лікарням Миколаївської області в придбанні необхідних засобів для запобігання та боротьби з covid-19`
+                },
+                {
+                    vmid: "keywords",
+                    name: "keywords",
+                    content: `Миколаїв, Миколаївська область, лікарні Миколаївської області, допомога лікарням, covid-19, епідемія, пандемія`
+                },
+            ],
+        },
+
         components: {
             Promo,
             Mykolaiv,

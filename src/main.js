@@ -3,6 +3,7 @@ import Vuelidate from "vuelidate"
 import VueRouter from "vue-router"
 import jQuery from "jquery"
 import axios from "axios"
+import VueMeta from "vue-meta"
 import router from "./Route/route"
 import store from "./store/store"
 import App from './App.vue'
@@ -12,6 +13,9 @@ Vue.use(Vuelidate);
 Vue.use(VueRouter);
 Vue.use(axios);
 Vue.config.productionTip = false;
+Vue.use(VueMeta, {
+  refreshOnceOnNavigation: true
+})
 
 window.axios = require('axios');
 

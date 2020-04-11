@@ -19,6 +19,17 @@ import Footer from "./components/Footer";
 export default {
   name: 'App',
 
+  // metaInfo: {
+  //   meta: [
+  //     {
+  //       vmid: "og:title",
+  //       property: "og:title",
+  //       content: "Test title",
+  //       template: chunk => `${chunk} - HelpMedic`
+  //     }
+  //   ]
+  // },
+
   components: {
     appHeader: Header,
     aapFooter: Footer,
